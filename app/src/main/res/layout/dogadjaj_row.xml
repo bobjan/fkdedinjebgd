@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:text="15'"
+        android:id="@+id/tvMinutHome"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:text="15'"
+        android:id="@+id/tvMinutAway"
+        android:layout_alignParentRight="true"/>
+
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Petar Petrovic"
+        android:id="@+id/tvOpisHome"
+        android:layout_toRightOf="@id/tvMinutHome"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Petar Petrovic"
+        android:id="@+id/tvOpisAway"
+        android:layout_toLeftOf="@id/tvMinutAway"/>
+
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="1:0"
+        android:layout_centerInParent="true"
+        android:id="@+id/tvScore"/>
+
+</RelativeLayout>

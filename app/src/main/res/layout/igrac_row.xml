@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/ivIgrac"
+        android:layout_alignParentLeft="true"/>
+    <TextView
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNazivIgraca"
+        android:layout_toRightOf="@+id/ivIgrac"
+        android:text="Petar Petrovic"/>
+    <TextView
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNaslov"
+        android:layout_toRightOf="@+id/ivIgrac"
+        android:layout_below="@+id/tvNazivIgraca"
+        android:text="odbrana"/>
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvGodinaRodjenja"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:text="1995"/>
+
+
+
+</RelativeLayout>

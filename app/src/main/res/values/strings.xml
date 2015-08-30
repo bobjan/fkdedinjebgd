@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">FKDedinjeBGD</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_live_score">LiveScoreActivity</string>
+</resources>

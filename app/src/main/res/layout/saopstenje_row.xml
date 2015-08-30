@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+
+    <TextView
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDatumVesti"
+        android:layout_alignParentLeft="true"
+        android:text="15.5.2015"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNaslov"
+        android:layout_toRightOf="@+id/tvDatumVesti"
+        android:layout_below="@+id/tvNazivIgraca"
+        android:text="naslov"/>
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/ivSlika"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvDatumVesti"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:id="@+id/tvCeloSaopstenje"
+        android:layout_toRightOf="@+id/ivSlika"
+        android:layout_below="@+id/tvNaslov"
+        android:text="kjd jk j kjh sjdh jfgk jf jfkj jf djf kf kjf kjfg kjd jhjd jf kj kjgh kfjg jkjf kjfdg jf jf jfkg jfkjfkjhdfk jhdfkj hk fkdfjg kjfg kjg jdhg k"/>
+
+
+
+</RelativeLayout>
