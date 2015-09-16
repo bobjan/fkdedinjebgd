@@ -4,13 +4,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class LiveScoreActivity extends AppCompatActivity {
-
+public class StandingsActivity extends AppCompatActivity {
+    TextView tvNazivLige;
+    TextView tvOdigranoKolo;
+    ListView lvStandings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_live_score);
+        setContentView(R.layout.activity_standings);
+
+        tvNazivLige = (TextView) findViewById(R.id.tvNazivLige);
+        tvOdigranoKolo = (TextView) findViewById(R.id.tvOdigranoKolo);
+        lvStandings = (ListView) findViewById(R.id.lvStandings);
+
+
+
+
     }
 
     @Override
@@ -28,7 +40,7 @@ public class LiveScoreActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_home) {
+        if (id == R.id.action_standings) {
             return true;
         }
 

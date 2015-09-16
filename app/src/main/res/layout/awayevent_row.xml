@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="3dp"
+    android:background="@color/screen_background"
+    android:padding="0dp">
+
+    <TextView
+        android:id="@+id/tvaEventMinut"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="15'"
+        android:textColor="@color/screen_font"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/tvaFirstIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tvaEventMinut"
+        android:src="@drawable/football30x30" />
+
+
+
+
+    <TextView
+        android:id="@+id/tvaPlayer"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:text="Petar Petrovic"
+        android:textColor="@color/screen_font"
+        android:textSize="18sp" />
+
+
+    <ImageView
+        android:id="@+id/tvaSecondIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_toLeftOf="@id/tvaPlayer"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/red30x30" />
+
+    <TextView
+        android:id="@+id/tvaScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@id/tvaSecondIcon"
+        android:gravity="clip_horizontal"
+        android:text="10:10"
+        android:textColor="@color/complementlght"
+        android:textSize="20sp" />
+
+
+
+</RelativeLayout>

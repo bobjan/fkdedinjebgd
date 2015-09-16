@@ -1,6 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+
+    <item android:id="@+id/action_home" android:title="@string/btn_home"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_management" android:title="@string/btn_management"
+        android:orderInCategory="200" app:showAsAction="never" />
+    <item android:id="@+id/action_squad" android:title="@string/btn_squad"
+        android:orderInCategory="300" app:showAsAction="never" />
+    <item android:id="@+id/action_fixtures" android:title="@string/btn_fixtures"
+        android:orderInCategory="400" app:showAsAction="never" />
+    <item android:id="@+id/action_standings" android:title="@string/btn_standings"
+        android:orderInCategory="500" app:showAsAction="never" />
+    <item android:id="@+id/action_livescore" android:title="@string/btn_livescore"
+        android:orderInCategory="600" app:showAsAction="never" />
 </menu>

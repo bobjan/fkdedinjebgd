@@ -4,13 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
-public class LiveScoreActivity extends AppCompatActivity {
-
+public class SquadActivity extends AppCompatActivity {
+    ListView lvSquad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_live_score);
+        setContentView(R.layout.activity_squad);
+        lvSquad = (ListView) findViewById(R.id.lvSquad);
     }
 
     @Override
@@ -28,7 +30,7 @@ public class LiveScoreActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_home) {
+        if (id == R.id.action_squad) {
             return true;
         }
 

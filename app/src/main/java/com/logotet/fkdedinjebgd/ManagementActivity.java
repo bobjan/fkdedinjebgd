@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class LiveScoreActivity extends AppCompatActivity {
+public class ManagementActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_live_score);
+        setContentView(R.layout.activity_management);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class LiveScoreActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_home) {
+        if (id == R.id.action_management) {
             return true;
         }
 

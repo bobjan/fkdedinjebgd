@@ -6,14 +6,14 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/ivIgracIcon"/>
+        android:id="@+id/ivManagerIcon"/>
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="4dp">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvManagerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -23,34 +23,16 @@
             android:text="Petar Petrovic"/>
 
         <TextView
-            android:id="@+id/tvPozicija"
+            android:id="@+id/tvFunkcija"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="@color/screen_font"
-            android:layout_below="@+id/tvName"
+            android:layout_below="@+id/tvManagerName"
             android:layout_alignParentLeft="true"
             android:text="odbrana"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvVisina"
-            android:textSize="14dp"
-            android:textColor="@color/screen_font"
-            android:layout_alignParentRight="true"
-            android:text="180cm"
-            android:paddingRight="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvTezina"
-            android:textSize="14dp"
-            android:textColor="@color/screen_font"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tvVisina"
-            android:text="86kg"
-            android:paddingRight="20dp"/>
+
     </RelativeLayout>
 
 </LinearLayout>

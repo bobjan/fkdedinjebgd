@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="complementdark">#23600D</color>
+    <color name="complementclr">#90c97b</color>
+    <color name="complementlght">#c9df89</color>
+
+
+    <color name="baseclr">#73225c</color>
+    <color name="baseliht">#8f3f79</color>
+    <color name="baselight">#b06c9d</color>
+    <color name="basedark">#540B40</color>
+
+    <color name="grey">#bfbfbf</color>
+    <color name="verydark">#202020</color>
+
+
+
+    <color name="myblue">#6699ff</color>
+    <color name="mylightblue">#aaccff</color>
+    <color name="myultrablue">#bbddff</color>
+
+    <color name="llback">#202020</color>
+    <color name="seltabclr">#8f8f8f</color>
+    <color name="unseltabclr">#aaaaaa</color>
+
+
+
+    <color name="screen_background">#404040</color>
+    <color name="screen_font">#d6d6d6</color>
+
+    <color name="tablayout_background">#202020</color>
+    <color name="tabselected">#8f8f8f</color>
+    <color name="tabunselected">#aaaaaa</color>
+    <color name="tabselected_font">#aaaaaa</color>
+    <color name="tabunselected_font">#aaaaaa</color>
+    <color name="tablayout_font">#aaaaaa</color>
+
+
+
+    <color name="btn1_gradient_start">#73225c</color>
+    <color name="btn1_gradient_end">#8f3f79</color>
+    <color name="btn1_border">#73225c</color>
+    <color name="btn1_font">#c9df89</color>
+
+    <color name="btn2_gradient_start">#bfbfbf</color>
+    <color name="btn2_gradient_end">#404040</color>
+    <color name="btn2_border">#bfbfbf</color>
+    <color name="btn2_font">#aaaaaa</color>
+
+    <color name="btn3_gradient_start">#aaaaaa</color>
+    <color name="btn3_gradient_end">#aaaaaa</color>
+    <color name="btn3_border">#aaaaaa</color>
+    <color name="btn3_font">#aaaaaa</color>
+
+
+</resources>
