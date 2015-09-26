@@ -1,30 +1,66 @@
 package com.logotet.fkdedinjebgd.adapters;
 
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.logotet.dedinjeadmin.model.Klub;
+import com.logotet.dedinjeadmin.model.Osoba;
+import com.logotet.fkdedinjebgd.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by boban on 9/16/15.
  */
 public class ManagementAdapter extends BaseAdapter {
+    Activity activity;
+    private LayoutInflater inflater;
+    ArrayList arrayList;
+
+    public ManagementAdapter(Activity activity) {
+        this.activity = activity;
+        arrayList = Klub.getInstance().getRukovodstvo();
+    }
+
     @Override
     public int getCount() {
-        return 0;
+        return arrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return arrayList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+
+        if (inflater == null)
+            inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null)
+            convertView = inflater.inflate(R.layout.igrac_row, null);
+
+        ImageView ivOsobaIcon = (ImageView) convertView.findViewById(R.id.ivManagerIcon);
+
+        TextView tvName = (TextView) convertView.findViewById(R.id.tvManagerName);
+        TextView tvFunkcija = (TextView) convertView.findViewById(R.id.tvFunkcija);
+
+        Osoba osoba = (Osoba) getItem(position);
+
+        tvName.setText(osoba.getNaziv());
+        tvFunkcija.setText(osoba.getFunkcija());
+
+        return convertView;
     }
 }

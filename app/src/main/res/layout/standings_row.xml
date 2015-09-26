@@ -8,62 +8,71 @@
 
     <TextView
            android:id="@+id/tvMestoNaTabeli"
-            android:layout_width="35dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textColor="@color/screen_font"
-        android:gravity="right"
-        android:text="10."/>
+        android:gravity="right"  />
 
         <TextView
             android:id="@+id/tvTeamName"
-            android:layout_width="140dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textColor="@color/screen_font"
-            android:ellipsize="end"
-            android:text="rekreativo 011"/>
+            android:ellipsize="end"   />
 
 
     <TextView
         android:id="@+id/tvPlayed"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
+
+        android:layout_margin="0dp"
+
         android:textColor="@color/screen_font"
-        android:gravity="right"
-        android:text="88"/>
+        android:gravity="right"   />
     <TextView
         android:id="@+id/tvWin"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
+
+        android:layout_margin="0dp"
+
         android:textColor="@color/screen_font"
-        android:gravity="right"
-        android:text="10"/>
+        android:gravity="right"    />
     <TextView
         android:id="@+id/tvDraw"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
+
+        android:layout_margin="0dp"
+
         android:textColor="@color/screen_font"
-        android:gravity="right"
-        android:text="10"/>
+        android:gravity="right"   />
     <TextView
         android:id="@+id/tvLose"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
+
+        android:layout_margin="0dp"
+
         android:textColor="@color/screen_font"
-        android:gravity="right"
-        android:text="10"/>
+        android:gravity="right"   />
 
 
     <TextView
         android:id="@+id/tvGoalDiff"
-        android:layout_width="55dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
+
+        android:layout_margin="0dp"
+
         android:textColor="@color/screen_font"
         android:gravity="center_horizontal"
         android:text="10:10"/>
@@ -72,7 +81,10 @@
         android:id="@+id/tvPoints"
         android:layout_width="25dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
+
+        android:layout_margin="0dp"
+
         android:textColor="@color/screen_font"
         android:gravity="right"
         android:text="10"/>

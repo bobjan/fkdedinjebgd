@@ -7,37 +7,34 @@
     android:layout_marginBottom="3dp">
     <TextView
            android:id="@+id/tvDatum"
-            android:layout_width="85dp"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="12sp"
+        android:layout_marginRight="5dp"
             android:textColor="@color/screen_font"
-        android:gravity="right"
-        android:text="15-09-2015"/>
+        android:gravity="right"/>
 
         <TextView
             android:id="@+id/tvTeamHome"
-            android:layout_width="130dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textColor="@color/screen_font"
             android:gravity="right"
-            android:ellipsize="end"
-            android:text="rekreativo 011"/>
+            android:ellipsize="end"            />
     <TextView
         android:id="@+id/tvScore"
-        android:layout_width="40dp"
+        android:layout_width="28dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textColor="@color/complementlght"
-        android:gravity="center_horizontal"
-        android:text="10:10"/>
+        android:gravity="center_horizontal"       />
     <TextView
         android:id="@+id/tvTeamAway"
-        android:layout_width="130dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:textColor="@color/screen_font"
         android:ellipsize="end"
-        android:gravity="left"
-        android:text="rekreativo 011"/>
+        android:gravity="left"    />
 </LinearLayout>

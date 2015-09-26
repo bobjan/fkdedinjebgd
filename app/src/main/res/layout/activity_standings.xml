@@ -16,8 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/screen_font"
-        android:text="medju opstinsk aliga b"
-        android:textSize="22dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tvOdigranoKolo"
@@ -26,13 +25,13 @@
         android:layout_below="@+id/tvNazivLige"
         android:layout_centerHorizontal="true"
         android:textColor="@color/screen_font"
-        android:text="posle 2. .kolo"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <Space
         android:id="@+id/spaceline"
         android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_height="4dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@id/tvOdigranoKolo"
         android:background="@color/complementlght" />
 
@@ -41,6 +40,5 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/spaceline"></ListView>
-
 
 </RelativeLayout>

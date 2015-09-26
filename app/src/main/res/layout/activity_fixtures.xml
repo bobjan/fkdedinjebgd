@@ -7,13 +7,33 @@
     android:background="@color/screen_background"
     tools:context="com.logotet.fkdedinjebgd.FixturesActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSezonaText"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="80dp"
+        android:paddingRight="5dp"
+        android:textSize="20dp"
+        android:textColor="@color/screen_font"
+        android:text="@string/prompt_sezona"
+        />
 
-
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/tvSeason"
+        android:layout_toRightOf="@+id/tvSezonaText"
+        android:textSize="20dp"
+        android:textColor="@color/screen_font"
+        android:layout_marginBottom="6dp" />
 
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lvFixtures"></ListView>
+        android:id="@+id/lvFixtures"
+        android:layout_below="@+id/tvSeason"></ListView>
 
 </RelativeLayout>

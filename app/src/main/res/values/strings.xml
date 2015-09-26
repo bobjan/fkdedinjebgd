@@ -16,4 +16,14 @@
     <string name="title_activity_maps">Како до стадона</string>
     <string name="title_activity_live_score">Уживо праћење резултата</string>
 
+    <string name="prompt_sezona">сезона</string>
+    <string name="prompt_datum_osnivanja">Датум оснивања:</string>
+    <string name="prompt_adresa">Адреса:</string>
+    <string name="prompt_mesto">Место:</string>
+    <string name="prompt_pib">ПИБ"</string>
+    <string name="prompt_matbroj">Мат.број:</string>
+    <string name="prompt_email">Email:</string>
+    <string name="prompt_web">Web:</string>
+    <string name="prompt_tekrac">Текући рачун:</string>
+
 </resources>

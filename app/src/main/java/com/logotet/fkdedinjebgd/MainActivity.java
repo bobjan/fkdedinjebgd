@@ -1,12 +1,18 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.logotet.dedinjeadmin.AllStatic;
+import com.logotet.dedinjeadmin.HttpCatcher;
+import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     Button btnHome;
@@ -15,11 +21,11 @@ public class MainActivity extends AppCompatActivity {
     Button btnFixtures;
     Button btnStandings;
     Button btnLivescore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         btnHome = (Button) findViewById(R.id.btnHomeAction);
         btnManagement = (Button) findViewById(R.id.btnManagement);
@@ -28,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
         btnStandings = (Button) findViewById(R.id.btnStandings);
         btnLivescore = (Button) findViewById(R.id.btnLivescore);
 
-
+        preuzmiRaspored();
+        preuzmiTabelu();
+        preuzmiRukovodstvo();
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,4 +112,54 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void preuzmiRaspored() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETFIXTURES, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void preuzmiTabelu() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    catcher = new HttpCatcher(RequestPreparator.GETTABELA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+
+    private void preuzmiRukovodstvo() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                 } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+
 }

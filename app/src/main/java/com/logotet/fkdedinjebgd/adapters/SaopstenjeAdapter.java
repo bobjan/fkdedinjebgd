@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.logotet.dedinjeadmin.model.BazaSaopstenja;
+
 import java.util.ArrayList;
 
 /**
@@ -16,7 +18,7 @@ public class SaopstenjeAdapter extends BaseAdapter {
 
     public SaopstenjeAdapter(Activity activity) {
         this.activity = activity;
-        arrayList = new ArrayList() ;
+//        arrayList = BazaSaopstenja.getInstance().
     }
 
     @Override

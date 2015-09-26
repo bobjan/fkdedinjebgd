@@ -4,13 +4,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.logotet.dedinjeadmin.model.Fixtures;
+import com.logotet.fkdedinjebgd.adapters.FixturesAdapter;
 
 public class FixturesActivity extends AppCompatActivity {
+    private static final String TAG = "StandingsActivity";
+    TextView tvSezona;
+    ListView lvFixtures;
+    private FixturesAdapter fixturesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixtures);
+
+
+        String sezona = Fixtures.getInstance().getSezona();
+
+        lvFixtures = (ListView) findViewById(R.id.lvFixtures);
+        fixturesAdapter = new FixturesAdapter(this);
+        lvFixtures.setAdapter(fixturesAdapter);
+        tvSezona = (TextView)findViewById(R.id.tvSeason);
+//
+        tvSezona.setText(sezona);
+
+
     }
 
     @Override
@@ -34,4 +55,8 @@ public class FixturesActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 }
