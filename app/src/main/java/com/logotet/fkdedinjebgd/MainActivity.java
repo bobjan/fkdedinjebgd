@@ -1,6 +1,8 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -10,6 +12,8 @@ import android.widget.Button;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
+import com.logotet.dedinjeadmin.model.Fixtures;
+import com.logotet.dedinjeadmin.model.Tabela;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 
 import java.io.IOException;
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    Fixtures.getInstance().getRaspored().clear();
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETFIXTURES, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                 } catch (IOException e) {
@@ -135,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
+                    Tabela.getInstance().getPlasman().clear();
                     catcher = new HttpCatcher(RequestPreparator.GETTABELA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                 } catch (IOException e) {
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         });
         thread.start();
     }
+
 
 
 }
