@@ -1,5 +1,6 @@
 package com.logotet.fkdedinjebgd;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -48,12 +49,24 @@ public class StandingsActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_standings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        switch(item.getItemId()){
+            case R.id.action_home:
+                startActivity(new Intent(this, HomeActivity.class));
+                return true;
+            case R.id.action_management:
+                startActivity(new Intent(this, ManagementActivity.class));
+                return true;
+            case R.id.action_fixtures:
+                startActivity(new Intent(this, FixturesActivity.class));
+                return true;
+            case R.id.action_squad:
+                startActivity(new Intent(this, SquadActivity.class));
+                return true;
+            case R.id.action_standings:
+                return true;
+            case R.id.action_livescore:
+                startActivity(new Intent(this, LiveScoreActivity.class));
+                return true;
+        }        return super.onOptionsItemSelected(item);
     }
 }

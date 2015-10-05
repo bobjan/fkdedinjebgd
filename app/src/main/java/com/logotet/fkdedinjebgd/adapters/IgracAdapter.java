@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.logotet.dedinjeadmin.model.BazaIgraca;
+import com.logotet.dedinjeadmin.model.BazaPozicija;
 import com.logotet.dedinjeadmin.model.Igrac;
+import com.logotet.dedinjeadmin.model.Pozicija;
 import com.logotet.fkdedinjebgd.R;
 
 import java.util.ArrayList;
@@ -20,8 +22,8 @@ import java.util.ArrayList;
  */
 public class IgracAdapter extends BaseAdapter {
     Activity activity;
-    private LayoutInflater inflater;
     ArrayList arrayList;
+    private LayoutInflater inflater;
 
     public IgracAdapter(Activity activity) {
         this.activity = activity;
@@ -57,22 +59,21 @@ public class IgracAdapter extends BaseAdapter {
         TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
         TextView tvPozicija = (TextView) convertView.findViewById(R.id.tvPozicija);
         TextView tvVisina = (TextView) convertView.findViewById(R.id.tvVisina);
-        TextView tvTezina = (TextView) convertView.findViewById(R.id.tvVisina);
+        TextView tvTezina = (TextView) convertView.findViewById(R.id.tvTezina);
+        TextView tvGodiste = (TextView) convertView.findViewById(R.id.tvGodiste);
 
+        Igrac igrac = (Igrac) getItem(position);
 
-       Igrac igrac = (Igrac)getItem(position);
-
-
-    String godinaRodjenja = (igrac.getGodinaRodjenja() == 0) ? "" : " (" + igrac.getGodinaRodjenja() + ")";
-    tvName.setText(igrac.getNaziv() + godinaRodjenja);
-    tvPozicija.setText(igrac.getDefaultPozicija());
-//    if(igrac.get() != 0)
-//tvVisina.setText(igrac.getVisina() + "cm");
-//if(igrac.getTezina() != 0)
-//tvTezina.setText(igrac.getTezina() + "kg");
-
+        String godinaRodjenja = (igrac.getGodinaRodjenja() == 0) ? "" : "(" + igrac.getGodinaRodjenja() + ")";
+        int defPox = igrac.getDefaultPozicija();
+        tvName.setText(igrac.getNaziv());
+        tvGodiste.setText(godinaRodjenja);
+        Pozicija pozicija = BazaPozicija.getInstance().getPozicija(igrac.getDefaultPozicija());
+        tvPozicija.setText(pozicija.getNaziv());
+        if (igrac.getVisina() != 0)
+            tvVisina.setText(igrac.getVisina() + "cm");
+        if (igrac.getTezina() != 0)
+            tvTezina.setText(igrac.getTezina() + "kg");
         return convertView;
-
-
     }
 }

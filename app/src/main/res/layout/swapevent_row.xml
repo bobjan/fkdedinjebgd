@@ -7,47 +7,42 @@
     android:padding="0dp">
 
     <TextView
-        android:id="@+id/tvhEventMinut"
+        android:id="@+id/tvEventMinutSwap"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-       android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:textColor="@color/screen_font"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/tvhPlayer"
-        android:layout_width="140dp"
+        android:id="@+id/tvPlayerIn"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tvhEventMinut"
         android:layout_centerVertical="true"
-        android:textColor="@color/screen_font"
-        android:textSize="12sp" />
-
-    <ImageView
-        android:id="@+id/ivhFirstIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/tvhPlayer" />
-
-    <TextView
-        android:id="@+id/tvhScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/tvEventMinutSwap"
+        android:gravity="right"
+        android:paddingRight="5dp"
         android:textColor="@color/complementlght"
-        android:gravity="clip_horizontal"
-        android:textSize="12sp"
-        android:layout_toRightOf="@id/ivhFirstIcon"/>
+        android:textSize="12sp" />
 
     <ImageView
-        android:id="@+id/ivhSecondIcon"
+        android:id="@+id/ivFirstIconSwap"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_toRightOf="@id/tvPlayerIn"
+        android:src="@drawable/swap30x30" />
+
+    <TextView
+        android:id="@+id/tvPlayerOut"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/ivFirstIconSwap"
+        android:textColor="@color/baselight"
+        android:textSize="12sp" />
+
 
 </RelativeLayout>

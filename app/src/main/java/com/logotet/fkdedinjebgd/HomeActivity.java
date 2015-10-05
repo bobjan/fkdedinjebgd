@@ -1,17 +1,17 @@
 package com.logotet.fkdedinjebgd;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.logotet.dedinjeadmin.AllStatic;
-import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
 import com.logotet.dedinjeadmin.model.Klub;
 
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class HomeActivity extends AppCompatActivity {
     ImageView ivMainPhoto;
@@ -66,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         tvTekrac.setText(klub.getTekrac());
 
 
-       ivMainPhoto = (ImageView) findViewById(R.id.ivMainPhoto);
+        ivMainPhoto = (ImageView) findViewById(R.id.ivMainPhoto);
 
         handler = new Handler();
 
@@ -86,28 +85,41 @@ public class HomeActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_home) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_home:
+                return true;
+            case R.id.action_management:
+                startActivity(new Intent(this, ManagementActivity.class));
+                return true;
+            case R.id.action_fixtures:
+                startActivity(new Intent(this, FixturesActivity.class));
+                return true;
+            case R.id.action_squad:
+                startActivity(new Intent(this, SquadActivity.class));
+                return true;
+            case R.id.action_standings:
+                startActivity(new Intent(this, StandingsActivity.class));
+                return true;
+            case R.id.action_livescore:
+                startActivity(new Intent(this, LiveScoreActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void preuzmiSliku(final String imgName){
+    private void preuzmiSliku(final String imgName) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     URL url = new URL(AllStatic.HTTPHOST + "/images/" + imgName);
-                    HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     try {
                         ByteArrayOutputStream out = new ByteArrayOutputStream();
                         InputStream in = urlConnection.getInputStream();
                         if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                            throw new IOException(urlConnection.getResponseMessage() +  ": with " + imgName);
+                            throw new IOException(urlConnection.getResponseMessage() + ": with " + imgName);
                         }
                         int bytesRead = 0;
                         byte[] buffer = new byte[1024];

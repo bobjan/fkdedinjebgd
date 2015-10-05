@@ -20,7 +20,7 @@ public class TestMainActivity extends AppCompatActivity {
         btnGo = (Button) findViewById(R.id.btnGo);
         btnSound = (Button) findViewById(R.id.btnSound);
 
-        intent = new Intent(this, MapsActivity.class);
+//        intent = new Intent(this, NewMapsActivity.class);
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

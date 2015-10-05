@@ -49,7 +49,7 @@ public class ManagementAdapter extends BaseAdapter {
         if (inflater == null)
             inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null)
-            convertView = inflater.inflate(R.layout.igrac_row, null);
+            convertView = inflater.inflate(R.layout.manager_row, null);
 
         ImageView ivOsobaIcon = (ImageView) convertView.findViewById(R.id.ivManagerIcon);
 

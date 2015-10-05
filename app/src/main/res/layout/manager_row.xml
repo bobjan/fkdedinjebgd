@@ -16,21 +16,19 @@
             android:id="@+id/tvManagerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textColor="@color/screen_font"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:text="Petar Petrovic"/>
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/tvFunkcija"
-            android:layout_width="100dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textColor="@color/screen_font"
             android:layout_below="@+id/tvManagerName"
-            android:layout_alignParentLeft="true"
-            android:text="odbrana"/>
+            android:layout_alignParentLeft="true" />
 
     </RelativeLayout>
 </LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/screen_background">
+
+    <TextView
+        android:id="@+id/tvKomentarMinut"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/screen_font"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/tvKomentar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:textColor="@color/screen_font"      />
+</LinearLayout>

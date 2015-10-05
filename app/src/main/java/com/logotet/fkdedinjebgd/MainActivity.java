@@ -12,6 +12,8 @@ import android.widget.Button;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
+import com.logotet.dedinjeadmin.model.BazaPozicija;
+import com.logotet.dedinjeadmin.model.BazaStadiona;
 import com.logotet.dedinjeadmin.model.Fixtures;
 import com.logotet.dedinjeadmin.model.Tabela;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         preuzmiRaspored();
         preuzmiTabelu();
         preuzmiRukovodstvo();
+        preuzmiEkipu();
+        preuzmiNextMatch();
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,14 +108,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_home) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_home:
+                startActivity(new Intent(this, HomeActivity.class));
+                return true;
+            case R.id.action_management:
+                startActivity(new Intent(this, ManagementActivity.class));
+                return true;
+            case R.id.action_fixtures:
+                startActivity(new Intent(this, FixturesActivity.class));
+                return true;
+            case R.id.action_squad:
+                startActivity(new Intent(this, SquadActivity.class));
+                return true;
+            case R.id.action_standings:
+                startActivity(new Intent(this, StandingsActivity.class));
+                return true;
+            case R.id.action_livescore:
+                startActivity(new Intent(this, LiveScoreActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -132,6 +148,28 @@ public class MainActivity extends AppCompatActivity {
         });
         thread.start();
     }
+
+    private void preuzmiNextMatch() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIVEMATCH, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+
+                    BazaStadiona.getInstance().getTereni().clear();
+                    catcher = new HttpCatcher(RequestPreparator.GETSTADION, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
 
     private void preuzmiTabelu() {
         Thread thread = new Thread(new Runnable() {
@@ -168,5 +206,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void preuzmiEkipu() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETPOZICIJA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
 
 }

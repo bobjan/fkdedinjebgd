@@ -1,16 +1,126 @@
 package com.logotet.fkdedinjebgd;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.logotet.dedinjeadmin.model.BazaStadiona;
+import com.logotet.dedinjeadmin.model.Stadion;
+import com.logotet.dedinjeadmin.model.Utakmica;
+import com.logotet.fkdedinjebgd.adapters.ClientEventsAdapter;
+import com.logotet.fkdedinjebgd.adapters.ClientIgracAdapter;
 
 public class LiveScoreActivity extends AppCompatActivity {
+    private boolean showSastav;
+    private boolean showEvents;
 
+    private ClientEventsAdapter eventsAdapter;
+    private ClientIgracAdapter sastavAdapter;
+
+
+    Button btnShowSastav;
+    Button btnShowEvents;
+
+    LinearLayout llEvents;
+    LinearLayout llSastav;
+    ListView lvClientEvents;
+    ListView lvClientIgrac;
+
+    TextView tvCurrentScore;
+    TextView tvCurrentMinute;
+    TextView tvHomeTeam;
+    TextView tvAwayTeam;
+
+    TextView txtDatum;
+    TextView txtStadion;
+
+    Stadion stadion;
+    Intent mapsActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_score);
+        btnShowSastav = (Button) findViewById(R.id.btnShowSastav);
+        btnShowEvents = (Button) findViewById(R.id.btnShowEvents);
+        llEvents = (LinearLayout) findViewById(R.id.llEvents);
+        llSastav = (LinearLayout) findViewById(R.id.llSastav);
+
+
+        lvClientEvents = (ListView) findViewById(R.id.lvClientEvents);
+        lvClientIgrac = (ListView) findViewById(R.id.lvClientIgrac);
+
+        eventsAdapter = new ClientEventsAdapter(this);
+        sastavAdapter = new ClientIgracAdapter(this);
+
+        lvClientEvents.setAdapter(eventsAdapter);
+        lvClientIgrac.setAdapter(sastavAdapter);
+
+
+        tvCurrentScore = (TextView) findViewById(R.id.tvCurrentScore);
+        tvCurrentMinute = (TextView) findViewById(R.id.tvCurrentMinute);
+        tvHomeTeam = (TextView) findViewById(R.id.tvHomeTeamName);
+        tvAwayTeam = (TextView) findViewById(R.id.tvAwayTeamName);
+        txtDatum = (TextView) findViewById(R.id.txtDatum);
+        txtStadion = (TextView) findViewById(R.id.txtStadion);
+
+        Utakmica utakmica = Utakmica.getInstance();
+        utakmica.odrediMinutazu();
+        tvCurrentScore.setText(utakmica.getCurrentRezulat());
+        tvCurrentMinute.setText(utakmica.getCurrentMinutIgre());
+        tvHomeTeam.setText(utakmica.getHomeTeamName());
+        tvAwayTeam.setText(utakmica.getAwayTeamName());
+
+
+        txtDatum.setText(utakmica.getDatum().toString());
+
+        stadion = BazaStadiona.getInstance().getStadion(utakmica.getStadionId());
+        if(stadion != null)
+            txtStadion.setText(stadion.getNaziv());
+        else
+            txtStadion.setText(stadion.getNaziv());
+
+        showSastav = true;
+        showEvents = true;
+
+
+        btnShowSastav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showSastav = showSastav ? false : true;
+                if(showSastav)
+                    llSastav.setVisibility(View.VISIBLE);
+                else
+                    llSastav.setVisibility(View.GONE);
+            }
+        });
+
+        btnShowEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEvents = showEvents ? false : true;
+                if(showEvents)
+                    llEvents.setVisibility(View.VISIBLE);
+                else
+                    llEvents.setVisibility(View.GONE);
+            }
+        });
+
+//        mapsActivity = new Intent(this,NewMapsActivity.class);
+            txtStadion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    mapsActivity.putExtra("latitude", stadion.getLatitude());
+//                    mapsActivity.putExtra("laongitude", stadion.getLatitude());
+//                    startActivity(mapsActivity);
+                }
+            });
     }
 
     @Override
@@ -25,13 +135,25 @@ public class LiveScoreActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_home) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_home:
+                startActivity(new Intent(this, HomeActivity.class));
+                return true;
+            case R.id.action_management:
+                startActivity(new Intent(this, ManagementActivity.class));
+                return true;
+            case R.id.action_fixtures:
+                startActivity(new Intent(this, FixturesActivity.class));
+                return true;
+            case R.id.action_squad:
+                startActivity(new Intent(this, SquadActivity.class));
+                return true;
+            case R.id.action_standings:
+                startActivity(new Intent(this, StandingsActivity.class));
+                return true;
+            case R.id.action_livescore:
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
