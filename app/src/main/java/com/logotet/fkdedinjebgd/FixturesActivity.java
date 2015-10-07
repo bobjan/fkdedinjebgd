@@ -12,7 +12,7 @@ import com.logotet.dedinjeadmin.model.Fixtures;
 import com.logotet.fkdedinjebgd.adapters.FixturesAdapter;
 
 public class FixturesActivity extends AppCompatActivity {
-    private static final String TAG = "StandingsActivity";
+    private static final String TAG = "FixturesActivity";
     TextView tvSezona;
     ListView lvFixtures;
     private FixturesAdapter fixturesAdapter;

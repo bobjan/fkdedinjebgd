@@ -29,6 +29,7 @@
 
     <string name="btn_events">ток утакмице</string>
     <string name="btn_lineup">састав</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

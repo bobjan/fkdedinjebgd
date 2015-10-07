@@ -18,6 +18,7 @@ import com.logotet.fkdedinjebgd.adapters.ClientEventsAdapter;
 import com.logotet.fkdedinjebgd.adapters.ClientIgracAdapter;
 
 public class LiveScoreActivity extends AppCompatActivity {
+    private static final String TAG = "LiveScoreActivity";
     private boolean showSastav;
     private boolean showEvents;
 
@@ -112,13 +113,14 @@ public class LiveScoreActivity extends AppCompatActivity {
             }
         });
 
-//        mapsActivity = new Intent(this,NewMapsActivity.class);
+        mapsActivity = new Intent(this,MapsActivity.class);
             txtStadion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    mapsActivity.putExtra("latitude", stadion.getLatitude());
-//                    mapsActivity.putExtra("laongitude", stadion.getLatitude());
-//                    startActivity(mapsActivity);
+                    mapsActivity.putExtra("latitude", stadion.getLatitude());
+                    mapsActivity.putExtra("longitude", stadion.getLongitude());
+                    mapsActivity.putExtra("stadion", stadion.getNaziv());
+                    startActivity(mapsActivity);
                 }
             });
     }
