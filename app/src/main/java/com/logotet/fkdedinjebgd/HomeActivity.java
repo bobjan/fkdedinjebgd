@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        preuzmiSliku("frontimage.png");
+        preuzmiSliku(Klub.getInstance().getFrontimage());
 
     }
 

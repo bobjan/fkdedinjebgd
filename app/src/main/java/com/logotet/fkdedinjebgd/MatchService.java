@@ -18,6 +18,7 @@ import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.util.BJDatum;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,7 +28,9 @@ public class MatchService extends Service {
     public static final String MY_PREFS_NAME = "DedinjePrefsFile";
    private Utakmica utakmica;
 
-    private final int INTERVAL = 120 * 60 * 1000; // dva sata
+//    private final int INTERVAL = 120 * 60 * 1000; // dva sata
+//    private final int INTERVAL = 120 * 60 * 1000; // dva sata
+    private final int INTERVAL = 5 * 60 * 1000; // 5 minuta
     private Timer timer;
 
 
@@ -39,7 +42,7 @@ public class MatchService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.w(TAG, "service started");
+//        Log.w(TAG, "service started");
 
         // Execute an action after period time
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -56,12 +59,20 @@ public class MatchService extends Service {
                         catcher.catchData();
                         utakmica = Utakmica.getInstance();
                         if(utakmica != null){
+//                            Log.w(TAG, " utakmica != null");
                             if(!utakmica.getDatum().lessThanToday()){
-                                if(!utakmica.uToku() && !utakmica.isFinished())
+//                                Log.w(TAG, " utakmica.datum  != today");
+                                // obraditi dogadjaje
+                                 pokreniGoalSevice();
+                                if(!utakmica.uToku() && !utakmica.isFinished()){
+//                                    Log.w(TAG, " utakmica.utoku.notfinished ");
                                     if(!isAlreadyNotified())
                                             createNotification();
+                                }
                             }
                         }
+                    } catch (FileNotFoundException fnfe) {
+                        fnfe.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -69,10 +80,16 @@ public class MatchService extends Service {
         }, 0, INTERVAL);
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void pokreniGoalSevice() {
+        Intent serviceIntent = new Intent(this, GoalService.class);
+        startService(serviceIntent);
 
     }
 
     private boolean isAlreadyNotified() {
+//        Log.w(TAG, " isAlready .. test");
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String nextMatch = utakmica.getAllInOne();
         String matchNotified = prefs.getString("nextmatch", " ");
@@ -80,6 +97,7 @@ public class MatchService extends Service {
         if(nextMatch.equals(matchNotified))
             return true;
 
+//        Log.w(TAG, " isAlready .. to be false");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("nextmatch", nextMatch);
         editor.commit();
@@ -107,7 +125,7 @@ public class MatchService extends Service {
         NotificationCompat.Builder notificationBuilder =  new NotificationCompat.Builder(this);
         notificationBuilder.setSmallIcon(R.mipmap.notifikacija);
         notificationBuilder.setContentTitle("Нова утакмица");
-        notificationBuilder.setContentText(utakmica.getDatum().toString() + " " + utakmica.getPlaniranoVremePocetka().toString() + " " + utakmica.getHomeTeamName() + "-" + utakmica.getAwayTeamName());
+        notificationBuilder.setContentText(utakmica.getDatum().toString() + " *** " + utakmica.getHomeTeamName() + "-" + utakmica.getAwayTeamName());
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, NextMatchActivity.class);
 

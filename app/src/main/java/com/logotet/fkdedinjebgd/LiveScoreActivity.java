@@ -1,12 +1,13 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,9 +42,11 @@ public class LiveScoreActivity extends AppCompatActivity {
 
     TextView txtDatum;
     TextView txtStadion;
+    ImageView ivGmaps;
 
     Stadion stadion;
     Intent mapsActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,8 @@ public class LiveScoreActivity extends AppCompatActivity {
         txtDatum = (TextView) findViewById(R.id.txtDatum);
         txtStadion = (TextView) findViewById(R.id.txtStadion);
 
+        ivGmaps = (ImageView) findViewById(R.id.ivgmaps);
+
         Utakmica utakmica = Utakmica.getInstance();
         utakmica.odrediMinutazu();
         tvCurrentScore.setText(utakmica.getCurrentRezulat());
@@ -82,7 +87,7 @@ public class LiveScoreActivity extends AppCompatActivity {
         txtDatum.setText(utakmica.getDatum().toString());
 
         stadion = BazaStadiona.getInstance().getStadion(utakmica.getStadionId());
-        if(stadion != null)
+        if (stadion != null)
             txtStadion.setText(stadion.getNaziv());
         else
             txtStadion.setText(stadion.getNaziv());
@@ -95,7 +100,7 @@ public class LiveScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showSastav = showSastav ? false : true;
-                if(showSastav)
+                if (showSastav)
                     llSastav.setVisibility(View.VISIBLE);
                 else
                     llSastav.setVisibility(View.GONE);
@@ -106,23 +111,32 @@ public class LiveScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showEvents = showEvents ? false : true;
-                if(showEvents)
+                if (showEvents)
                     llEvents.setVisibility(View.VISIBLE);
                 else
                     llEvents.setVisibility(View.GONE);
             }
         });
 
-        mapsActivity = new Intent(this,MapsActivity.class);
-            txtStadion.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mapsActivity.putExtra("latitude", stadion.getLatitude());
-                    mapsActivity.putExtra("longitude", stadion.getLongitude());
-                    mapsActivity.putExtra("stadion", stadion.getNaziv());
-                    startActivity(mapsActivity);
-                }
-            });
+        mapsActivity = new Intent(this, MapsActivity.class);
+        txtStadion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapsActivity.putExtra("latitude", stadion.getLatitude());
+                mapsActivity.putExtra("longitude", stadion.getLongitude());
+                mapsActivity.putExtra("stadion", stadion.getNaziv());
+                startActivity(mapsActivity);
+            }
+        });
+        ivGmaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mapsActivity.putExtra("latitude", stadion.getLatitude());
+                mapsActivity.putExtra("longitude", stadion.getLongitude());
+                mapsActivity.putExtra("stadion", stadion.getNaziv());
+                startActivity(mapsActivity);
+            }
+        });
     }
 
     @Override
@@ -137,7 +151,7 @@ public class LiveScoreActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_home:
                 startActivity(new Intent(this, HomeActivity.class));
                 return true;

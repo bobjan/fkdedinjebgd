@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
 import com.logotet.dedinjeadmin.model.Tabela;
 import com.logotet.fkdedinjebgd.adapters.StandingsAdapter;
@@ -35,6 +37,13 @@ public class StandingsActivity extends AppCompatActivity {
 
         tvNazivLige.setText(AppHeaderData.getInstance().getNazivLige());
         tvOdigranoKolo.setText("после " + Tabela.getInstance().getLastRound() + ". кола");
+
+        AdView mAdView = (AdView) findViewById(R.id.ad1View);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("YOUR_DEVICE_HASH")
+                .build();
+        mAdView.loadAd(adRequest);
+
     }
 
     @Override

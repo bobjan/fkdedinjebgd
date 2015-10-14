@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.logotet.dedinjeadmin.model.Fixtures;
 import com.logotet.fkdedinjebgd.adapters.FixturesAdapter;
 
@@ -31,6 +33,11 @@ public class FixturesActivity extends AppCompatActivity {
         tvSezona = (TextView)findViewById(R.id.tvSeason);
 //
         tvSezona.setText(sezona);
+        AdView mAdView = (AdView) findViewById(R.id.ad2View);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("YOUR_DEVICE_HASH")
+                .build();
+        mAdView.loadAd(adRequest);
 
 
     }

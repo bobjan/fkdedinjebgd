@@ -1,25 +1,72 @@
 package com.logotet.fkdedinjebgd;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.logotet.dedinjeadmin.AllStatic;
+import com.logotet.dedinjeadmin.model.BazaIgraca;
+import com.logotet.dedinjeadmin.model.Igrac;
 import com.logotet.fkdedinjebgd.adapters.IgracAdapter;
+
+import java.util.ArrayList;
 
 public class SquadActivity extends AppCompatActivity {
     ListView lvSquad;
     private IgracAdapter igracAdapter;
+    ArrayList<Igrac> ekipa;
+    Handler handler;
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.activity_squad);
         lvSquad = (ListView) findViewById(R.id.lvSquad);
         igracAdapter = new IgracAdapter(this);
         lvSquad.setAdapter(igracAdapter);
 
+        handler = new Handler();
+
+        ekipa = BazaIgraca.getInstance().getSquad();
+        for(int idx = 0; idx < ekipa.size(); idx++ ){
+            Igrac igrac = ekipa.get(idx);
+            if(!igrac.isImageLoaded()){
+                loadImage(igrac);
+            }
+        }
+        lvSquad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent portret = new Intent(context, PortretActivity.class);
+                portret.putExtra("vrsta",1);
+                portret.putExtra("currentidx",position);
+                startActivity(portret);
+            }
+        });
+
+        AdView mAdView = (AdView) findViewById(R.id.ad3View);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("YOUR_DEVICE_HASH")
+                .build();
+        mAdView.loadAd(adRequest);
+
+
+    }
+
+    private void loadImage(final Igrac igrac) {
+        Thread thread = new ImageLoader(igrac, handler);
+        thread.start();
     }
 
     @Override

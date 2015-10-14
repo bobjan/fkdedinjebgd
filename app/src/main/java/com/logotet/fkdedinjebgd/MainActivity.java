@@ -12,9 +12,11 @@ import android.widget.Button;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
+import com.logotet.dedinjeadmin.model.BazaIgraca;
 import com.logotet.dedinjeadmin.model.BazaPozicija;
 import com.logotet.dedinjeadmin.model.BazaStadiona;
 import com.logotet.dedinjeadmin.model.Fixtures;
+import com.logotet.dedinjeadmin.model.Klub;
 import com.logotet.dedinjeadmin.model.Tabela;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 
@@ -89,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Intent serviceIntent = new Intent(this, MatchService.class);
+        startService(serviceIntent);
     }
 
 
@@ -160,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
                     BazaStadiona.getInstance().getTereni().clear();
                     catcher = new HttpCatcher(RequestPreparator.GETSTADION, AllStatic.HTTPHOST, null);
                     catcher.catchData();
+                    catcher = new HttpCatcher(RequestPreparator.SERVERTIME, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
                     catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                 } catch (IOException e) {
@@ -195,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    Klub.getInstance().getRukovodstvo().clear();
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                  } catch (IOException e) {
@@ -211,8 +219,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    BazaPozicija.getInstance().getTimposition().clear();
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETPOZICIJA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
+                    BazaIgraca.getInstance().getSquad().clear();
                     catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                 } catch (IOException e) {

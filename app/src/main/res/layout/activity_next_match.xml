@@ -1,72 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_background"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/screen_background"
     tools:context="com.logotet.fkdedinjebgd.NextMatchActivity">
 
 
     <TextView
+        android:id="@+id/tvDanDatum"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvDanDatum"
-        android:gravity="center_horizontal"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:textColor="@color/screen_font"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/screen_font" />
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/tvZakazanoVreme"
-        android:gravity="center_horizontal"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/screen_font"
-        android:layout_below="@+id/tvDanDatum"  />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvDomaciTim"
-        android:textSize="20sp"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/baselight"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/tvZakazanoVreme"  />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvGostujuciTim"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/baselight"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:gravity="right"
-        android:layout_below="@+id/tvZakazanoVreme"
-        android:layout_toRightOf="@+id/tvDomaciTim"/>
-
-    <TextView
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvPromptStadion"
-        android:text="@string/prompt_stadion"
-        android:gravity="center_horizontal"
-        android:layout_alignParentLeft="true"
-        android:textColor="@color/screen_font"
-        android:layout_below="@+id/tvDomaciTim"  />
-
-    <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvStadionName"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvDanDatum"
         android:gravity="center_horizontal"
-        android:textColor="@color/screen_font"
+        android:textColor="@color/screen_font" />
+
+
+    <TextView
+        android:id="@+id/tvDomaciTim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvZakazanoVreme"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/baselight"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvGostujuciTim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvZakazanoVreme"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tvDomaciTim"
+        android:gravity="right"
+        android:textColor="@color/baselight"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvPromptStadion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvDomaciTim"
-        android:layout_toRightOf="@+id/tvPromptStadion"/>
+        android:layout_marginTop="30dp"
+        android:text="@string/prompt_stadion"
+        android:textColor="@color/screen_font" />
+
+    <TextView
+        android:id="@+id/tvStadionName"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvPromptStadion"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/complementlght"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/ivgooglemaps"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/tvPromptStadion"
+        android:layout_toRightOf="@+id/tvStadionName"
+        android:src="@drawable/gmaps90x90" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad5View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/admob_banner_id"></com.google.android.gms.ads.AdView>
 </RelativeLayout>

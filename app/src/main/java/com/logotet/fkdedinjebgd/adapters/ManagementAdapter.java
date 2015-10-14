@@ -2,6 +2,10 @@ package com.logotet.fkdedinjebgd.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,7 @@ import java.util.ArrayList;
  * Created by boban on 9/16/15.
  */
 public class ManagementAdapter extends BaseAdapter {
+    private static final String TAG = "ManagementAdapter";
     Activity activity;
     private LayoutInflater inflater;
     ArrayList arrayList;
@@ -58,9 +63,18 @@ public class ManagementAdapter extends BaseAdapter {
 
         Osoba osoba = (Osoba) getItem(position);
 
+        Drawable myDrawable = activity.getResources().getDrawable(R.drawable.personicon);
+        Bitmap myUserIcon = ((BitmapDrawable) myDrawable).getBitmap();
+        ivOsobaIcon.setImageBitmap(myUserIcon);
+        if(osoba.isImageLoaded()){
+            try {
+                ivOsobaIcon.setImageBitmap((Bitmap) osoba.getImage());
+            }catch(ClassCastException cce){
+//                Log.w(TAG, " nesto ne VALJA!!!");
+            }
+        }
         tvName.setText(osoba.getNaziv());
         tvFunkcija.setText(osoba.getFunkcija());
-
         return convertView;
     }
 }

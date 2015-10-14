@@ -11,18 +11,28 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:id="@+id/txtDatum"
         android:textColor="@color/baselight"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"  />
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/gmaps30x30"
+        android:id="@+id/ivgmaps"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtStadion"
+        android:layout_marginTop="5dp"
         android:textColor="@color/baselight"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"   />
+        android:layout_toLeftOf="@+id/ivgmaps"   />
 
     <TextView
         android:layout_width="60dp"
