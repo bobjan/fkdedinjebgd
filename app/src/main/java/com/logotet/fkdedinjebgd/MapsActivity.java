@@ -1,16 +1,11 @@
 package com.logotet.fkdedinjebgd;
 
 import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -33,14 +28,14 @@ public class MapsActivity extends Activity {
 
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             latitude = extras.getDouble("latitude");
             longitude = extras.getDouble("longitude");
             stadion = extras.getString("stadion");
         }
 
-        LatLng latLng = new LatLng(latitude,longitude);
-        googleMap = ((MapFragment)getFragmentManager().findFragmentById(R.id.map)).getMap();
+        LatLng latLng = new LatLng(latitude, longitude);
+        googleMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         googleMap.addMarker(new MarkerOptions().position(latLng).title(stadion));
         googleMap.getUiSettings().setZoomGesturesEnabled(true);

@@ -1,8 +1,8 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -30,7 +30,7 @@ public class FixturesActivity extends AppCompatActivity {
         lvFixtures = (ListView) findViewById(R.id.lvFixtures);
         fixturesAdapter = new FixturesAdapter(this);
         lvFixtures.setAdapter(fixturesAdapter);
-        tvSezona = (TextView)findViewById(R.id.tvSeason);
+        tvSezona = (TextView) findViewById(R.id.tvSeason);
 //
         tvSezona.setText(sezona);
         AdView mAdView = (AdView) findViewById(R.id.ad2View);
@@ -54,7 +54,7 @@ public class FixturesActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_home:
                 startActivity(new Intent(this, HomeActivity.class));
                 return true;
@@ -76,8 +76,6 @@ public class FixturesActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 }

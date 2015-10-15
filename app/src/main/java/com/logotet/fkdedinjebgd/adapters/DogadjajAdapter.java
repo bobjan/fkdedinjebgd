@@ -16,7 +16,7 @@ public class DogadjajAdapter extends BaseAdapter {
 
     public DogadjajAdapter(Activity activity) {
         this.activity = activity;
-        arrayList = new ArrayList() ;
+        arrayList = new ArrayList();
     }
 
     @Override

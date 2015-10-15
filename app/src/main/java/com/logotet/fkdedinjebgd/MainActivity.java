@@ -1,8 +1,6 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_home:
                 startActivity(new Intent(this, HomeActivity.class));
                 return true;
@@ -205,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     Klub.getInstance().getRukovodstvo().clear();
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
                     catcher.catchData();
-                 } catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

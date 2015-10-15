@@ -3,6 +3,7 @@ package com.logotet.fkdedinjebgd;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.widget.BaseAdapter;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.model.Igrac;
@@ -23,25 +24,28 @@ public class ImageLoader extends Thread {
     Handler handler;
     byte[] bitmapBytes;
     boolean forIgrac;
+    BaseAdapter adapter;
 
-    public ImageLoader(Igrac igrac, Handler hdl) {
+    public ImageLoader(Igrac igrac, Handler hdl, BaseAdapter adapter) {
         this.igrac = igrac;
         this.handler = hdl;
         forIgrac = true;
+        this.adapter = adapter;
     }
 
-    public ImageLoader(Osoba osoba, Handler hdl) {
+    public ImageLoader(Osoba osoba, Handler hdl, BaseAdapter adapter) {
         this.osoba = osoba;
         this.handler = hdl;
         forIgrac = false;
+        this.adapter = adapter;
     }
 
     @Override
     public void run() {
         try {
             URL url;
-            if(forIgrac)
-            url = new URL(AllStatic.HTTPHOST + "/images/" + igrac.getImageFileName());
+            if (forIgrac)
+                url = new URL(AllStatic.HTTPHOST + "/images/" + igrac.getImageFileName());
             else
                 url = new URL(AllStatic.HTTPHOST + "/images/" + osoba.getImageFileName());
 
@@ -50,8 +54,8 @@ public class ImageLoader extends Thread {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 InputStream in = urlConnection.getInputStream();
                 if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                    if(forIgrac)
-                    throw new IOException(urlConnection.getResponseMessage() + ": with " + igrac.getImageFileName());
+                    if (forIgrac)
+                        throw new IOException(urlConnection.getResponseMessage() + ": with " + igrac.getImageFileName());
                     else
                         throw new IOException(urlConnection.getResponseMessage() + ": with " + osoba.getImageFileName());
                 }
@@ -76,6 +80,7 @@ public class ImageLoader extends Thread {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
+                    adapter.notifyDataSetChanged();
 //                            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
 //                    ivMainPhoto.setImageBitmap(bitmap);
 //                            ivMainPhoto.invalidate();

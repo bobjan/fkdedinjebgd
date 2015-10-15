@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.logotet.dedinjeadmin.model.BazaSaopstenja;
-
 import java.util.ArrayList;
 
 /**

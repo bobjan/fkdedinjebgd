@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,10 +65,10 @@ public class ManagementAdapter extends BaseAdapter {
         Drawable myDrawable = activity.getResources().getDrawable(R.drawable.personicon);
         Bitmap myUserIcon = ((BitmapDrawable) myDrawable).getBitmap();
         ivOsobaIcon.setImageBitmap(myUserIcon);
-        if(osoba.isImageLoaded()){
+        if (osoba.isImageLoaded()) {
             try {
                 ivOsobaIcon.setImageBitmap((Bitmap) osoba.getImage());
-            }catch(ClassCastException cce){
+            } catch (ClassCastException cce) {
 //                Log.w(TAG, " nesto ne VALJA!!!");
             }
         }

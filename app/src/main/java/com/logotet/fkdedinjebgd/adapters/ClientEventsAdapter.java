@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.logotet.dedinjeadmin.model.Dogadjaj;
 import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.fkdedinjebgd.R;

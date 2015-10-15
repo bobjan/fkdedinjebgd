@@ -2,9 +2,9 @@ package com.logotet.fkdedinjebgd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.model.BazaIgraca;
 import com.logotet.dedinjeadmin.model.Igrac;
 import com.logotet.fkdedinjebgd.adapters.IgracAdapter;
@@ -39,9 +38,9 @@ public class SquadActivity extends AppCompatActivity {
         handler = new Handler();
 
         ekipa = BazaIgraca.getInstance().getSquad();
-        for(int idx = 0; idx < ekipa.size(); idx++ ){
+        for (int idx = 0; idx < ekipa.size(); idx++) {
             Igrac igrac = ekipa.get(idx);
-            if(!igrac.isImageLoaded()){
+            if (!igrac.isImageLoaded()) {
                 loadImage(igrac);
             }
         }
@@ -49,8 +48,8 @@ public class SquadActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent portret = new Intent(context, PortretActivity.class);
-                portret.putExtra("vrsta",1);
-                portret.putExtra("currentidx",position);
+                portret.putExtra("vrsta", 1);
+                portret.putExtra("currentidx", position);
                 startActivity(portret);
             }
         });
@@ -65,7 +64,7 @@ public class SquadActivity extends AppCompatActivity {
     }
 
     private void loadImage(final Igrac igrac) {
-        Thread thread = new ImageLoader(igrac, handler);
+        Thread thread = new ImageLoader(igrac, handler, igracAdapter);
         thread.start();
     }
 
@@ -81,7 +80,7 @@ public class SquadActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_home:
                 startActivity(new Intent(this, HomeActivity.class));
                 return true;
@@ -102,7 +101,6 @@ public class SquadActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

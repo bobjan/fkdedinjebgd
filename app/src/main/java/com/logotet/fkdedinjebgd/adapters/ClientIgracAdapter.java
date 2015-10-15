@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-
 import com.logotet.dedinjeadmin.model.BazaIgraca;
 import com.logotet.dedinjeadmin.model.Igrac;
 import com.logotet.fkdedinjebgd.R;
@@ -64,13 +63,12 @@ public class ClientIgracAdapter extends BaseAdapter {
         tvIgrac.setText(igrac.getNaziv());
         tvBrojNaDresu.setText(igrac.getBrojNaDresu() + "");
 
-      tvIgrac.setTextColor(Color.WHITE);
+        tvIgrac.setTextColor(Color.WHITE);
 
-        if(igrac.getBrojNaDresu() < 12){
+        if (igrac.getBrojNaDresu() < 12) {
             tvBrojNaDresu.setTextColor(clrStarter);
             tvIgrac.setTextColor(clrStarter);
-        }
-        else {
+        } else {
             tvBrojNaDresu.setTextColor(clrKlupa);
             tvIgrac.setTextColor(clrKlupa);
         }

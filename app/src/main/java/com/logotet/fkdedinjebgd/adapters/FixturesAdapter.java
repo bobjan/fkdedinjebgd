@@ -59,27 +59,27 @@ public class FixturesAdapter extends BaseAdapter {
         int baseclr = parent.getResources().getColor(R.color.baseclr);
         int defaultclr = parent.getResources().getColor(R.color.screen_background);
 
-        FixturesRow fixtureRow = (FixturesRow)getItem(position);
+        FixturesRow fixtureRow = (FixturesRow) getItem(position);
 
         tvTeamHome.setBackgroundColor(defaultclr);
         tvTeamAway.setBackgroundColor(defaultclr);
 
         tvDatum.setText(fixtureRow.getDatum().toString());
-        if(fixtureRow.isDomacin()){
-            if(fixtureRow.isPlayed()){
+        if (fixtureRow.isDomacin()) {
+            if (fixtureRow.isPlayed()) {
                 String tmp = fixtureRow.getWescored() + ":" + fixtureRow.getTheyscored();
                 tvScore.setText(tmp);
-            }else{
+            } else {
                 tvScore.setText("");
             }
             tvTeamHome.setText(AppHeaderData.getInstance().getUserTeamName());
             tvTeamAway.setText(fixtureRow.getProtivnik());
             tvTeamHome.setBackgroundColor(baseclr);
-        }else{
-            if(fixtureRow.isPlayed()){
+        } else {
+            if (fixtureRow.isPlayed()) {
                 String tmp = fixtureRow.getTheyscored() + ":" + fixtureRow.getWescored();
                 tvScore.setText(tmp);
-            }else{
+            } else {
                 tvScore.setText("");
             }
             tvTeamHome.setText(fixtureRow.getProtivnik());

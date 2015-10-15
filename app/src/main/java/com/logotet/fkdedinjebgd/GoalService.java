@@ -10,11 +10,9 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
-import com.logotet.dedinjeadmin.model.BazaStadiona;
 import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 
@@ -32,7 +30,8 @@ public class GoalService extends Service {
 
 
     public GoalService() {
-        timer = new Timer();  }
+        timer = new Timer();
+    }
 
 
     @Override
@@ -49,13 +48,13 @@ public class GoalService extends Service {
                     catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                     utakmica = Utakmica.getInstance();
-                    if(utakmica != null){
-                        if(!utakmica.getDatum().lessThanToday()){
-                            if(!utakmica.uToku() && !utakmica.isFinished())
-                                if(!isOldResult())
+                    if (utakmica != null) {
+                        if (!utakmica.getDatum().lessThanToday()) {
+                            if (!utakmica.uToku() && !utakmica.isFinished())
+                                if (!isOldResult())
                                     createNotification();
                         }
-                        if(utakmica.isFinished())
+                        if (utakmica.isFinished())
                             stopSelf();
                     }
                 } catch (IOException e) {
@@ -72,7 +71,7 @@ public class GoalService extends Service {
         String rezultat = utakmica.getCurrentRezulat();
         String oldRezultat = prefs.getString("currentscore", "0:0");
 
-        if(rezultat.equals(oldRezultat))
+        if (rezultat.equals(oldRezultat))
             return true;
 
 //        Log.w(TAG, " isOldResult .. to be false");
@@ -97,8 +96,8 @@ public class GoalService extends Service {
 //        Log.w(TAG, "service  destroyed");
     }
 
-    public void createNotification(){
-        NotificationCompat.Builder notificationBuilder =  new NotificationCompat.Builder(this);
+    public void createNotification() {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setSmallIcon(R.mipmap.notifikacija);
         notificationBuilder.setContentTitle("Гооооол!");
         notificationBuilder.setContentText(utakmica.getHomeTeamName() + "-" + utakmica.getAwayTeamName() + " " + utakmica.getCurrentRezulat());
@@ -112,7 +111,7 @@ public class GoalService extends Service {
         stackBuilder.addParentStack(NextMatchActivity.class);
 // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(resultPendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.

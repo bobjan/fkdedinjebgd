@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.logotet.dedinjeadmin.model.BazaIgraca;
 import com.logotet.dedinjeadmin.model.BazaPozicija;
 import com.logotet.dedinjeadmin.model.Igrac;
 import com.logotet.dedinjeadmin.model.Pozicija;
-import com.logotet.fkdedinjebgd.PortretActivity;
 import com.logotet.fkdedinjebgd.R;
 
 import java.util.ArrayList;
@@ -71,22 +69,25 @@ public class IgracAdapter extends BaseAdapter {
         TextView tvTezina = (TextView) convertView.findViewById(R.id.tvTezina);
         TextView tvGodiste = (TextView) convertView.findViewById(R.id.tvGodiste);
 
-        Igrac igrac = (Igrac) getItem(position);
+        tvGodiste.setText("");
+        tvTezina.setText("");
+        tvVisina.setText("");
+        tvPozicija.setText("");
 
+        Igrac igrac = (Igrac) getItem(position);
 
         Drawable myDrawable = activity.getResources().getDrawable(R.drawable.usericon);
         Bitmap myUserIcon = ((BitmapDrawable) myDrawable).getBitmap();
         ivIgracIcon.setImageBitmap(myUserIcon);
-        if(igrac.isImageLoaded()){
+        if (igrac.isImageLoaded()) {
             try {
                 ivIgracIcon.setImageBitmap((Bitmap) igrac.getImage());
-            }catch(ClassCastException cce){
+            } catch (ClassCastException cce) {
 //                Log.w(TAG, " nesto ne VALJA!!!");
             }
         }
 
         String godinaRodjenja = (igrac.getGodinaRodjenja() == 0) ? "" : "(" + igrac.getGodinaRodjenja() + ")";
-        int defPox = igrac.getDefaultPozicija();
         tvName.setText(igrac.getNaziv());
         tvGodiste.setText(godinaRodjenja);
         Pozicija pozicija = BazaPozicija.getInstance().getPozicija(igrac.getDefaultPozicija());

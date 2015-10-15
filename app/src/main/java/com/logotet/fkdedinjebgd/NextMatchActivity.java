@@ -42,8 +42,8 @@ public class NextMatchActivity extends AppCompatActivity {
 
         BJDatum datum = utakmica.getDatum();
         int indexDana = datum.getDayOfWeek() - 2;
-        if(indexDana < 0)
-            indexDana +=7;
+        if (indexDana < 0)
+            indexDana += 7;
         tvDanDatum.setText(BJDatum.getNazivDana(indexDana) + " " + datum.toString());
         tvZakazanoVreme.setText(utakmica.getPlaniranoVremePocetka().toString().substring(0, 5));
 

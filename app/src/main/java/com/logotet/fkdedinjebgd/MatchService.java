@@ -9,14 +9,12 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.BazaStadiona;
 import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
-import com.logotet.util.BJDatum;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,16 +24,16 @@ import java.util.TimerTask;
 public class MatchService extends Service {
     private static final String TAG = "MatchService";
     public static final String MY_PREFS_NAME = "DedinjePrefsFile";
-   private Utakmica utakmica;
+    private Utakmica utakmica;
 
-//    private final int INTERVAL = 120 * 60 * 1000; // dva sata
+    //    private final int INTERVAL = 120 * 60 * 1000; // dva sata
 //    private final int INTERVAL = 120 * 60 * 1000; // dva sata
     private final int INTERVAL = 5 * 60 * 1000; // 5 minuta
     private Timer timer;
 
 
     public MatchService() {
-       timer = new Timer();
+        timer = new Timer();
 
     }
 
@@ -48,34 +46,34 @@ public class MatchService extends Service {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                    try {
-                        HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIVEMATCH, AllStatic.HTTPHOST, null);
-                        catcher.catchData();
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIVEMATCH, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
 
-                        BazaStadiona.getInstance().getTereni().clear();
-                        catcher = new HttpCatcher(RequestPreparator.GETSTADION, AllStatic.HTTPHOST, null);
-                        catcher.catchData();
-                        catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
-                        catcher.catchData();
-                        utakmica = Utakmica.getInstance();
-                        if(utakmica != null){
+                    BazaStadiona.getInstance().getTereni().clear();
+                    catcher = new HttpCatcher(RequestPreparator.GETSTADION, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    utakmica = Utakmica.getInstance();
+                    if (utakmica != null) {
 //                            Log.w(TAG, " utakmica != null");
-                            if(!utakmica.getDatum().lessThanToday()){
+                        if (!utakmica.getDatum().lessThanToday()) {
 //                                Log.w(TAG, " utakmica.datum  != today");
-                                // obraditi dogadjaje
-                                 pokreniGoalSevice();
-                                if(!utakmica.uToku() && !utakmica.isFinished()){
+                            // obraditi dogadjaje
+                            pokreniGoalSevice();
+                            if (!utakmica.uToku() && !utakmica.isFinished()) {
 //                                    Log.w(TAG, " utakmica.utoku.notfinished ");
-                                    if(!isAlreadyNotified())
-                                            createNotification();
-                                }
+                                if (!isAlreadyNotified())
+                                    createNotification();
                             }
                         }
-                    } catch (FileNotFoundException fnfe) {
-                        fnfe.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
+                } catch (FileNotFoundException fnfe) {
+                    fnfe.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }, 0, INTERVAL);
 
@@ -94,14 +92,14 @@ public class MatchService extends Service {
         String nextMatch = utakmica.getAllInOne();
         String matchNotified = prefs.getString("nextmatch", " ");
 
-        if(nextMatch.equals(matchNotified))
+        if (nextMatch.equals(matchNotified))
             return true;
 
 //        Log.w(TAG, " isAlready .. to be false");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("nextmatch", nextMatch);
         editor.commit();
-       return false;
+        return false;
     }
 
     @Override
@@ -114,15 +112,14 @@ public class MatchService extends Service {
     }
 
 
-
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void createNotification(){
-        NotificationCompat.Builder notificationBuilder =  new NotificationCompat.Builder(this);
+    public void createNotification() {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder.setSmallIcon(R.mipmap.notifikacija);
         notificationBuilder.setContentTitle("Нова утакмица");
         notificationBuilder.setContentText(utakmica.getDatum().toString() + " *** " + utakmica.getHomeTeamName() + "-" + utakmica.getAwayTeamName());
@@ -136,7 +133,7 @@ public class MatchService extends Service {
         stackBuilder.addParentStack(NextMatchActivity.class);
 // Adds the Intent that starts the Activity to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(resultPendingIntent);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.

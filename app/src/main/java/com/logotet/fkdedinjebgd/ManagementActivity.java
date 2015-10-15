@@ -51,8 +51,8 @@ public class ManagementActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent portret = new Intent(context, PortretActivity.class);
-                portret.putExtra("vrsta",2);
-                portret.putExtra("currentidx",position);
+                portret.putExtra("vrsta", 2);
+                portret.putExtra("currentidx", position);
                 startActivity(portret);
             }
         });
@@ -68,7 +68,7 @@ public class ManagementActivity extends AppCompatActivity {
     }
 
     private void loadImage(final Osoba osoba) {
-        Thread thread = new ImageLoader(osoba, handler);
+        Thread thread = new ImageLoader(osoba, handler, managerAdapter);
         thread.start();
     }
 
