@@ -76,30 +76,15 @@ public class LiveScoreActivity extends AppCompatActivity {
 
         ivGmaps = (ImageView) findViewById(R.id.ivgmaps);
 
-        Utakmica utakmica = Utakmica.getInstance();
-        utakmica.odrediMinutazu();
-        tvCurrentScore.setText(utakmica.getCurrentRezulat());
-        tvCurrentMinute.setText(utakmica.getCurrentMinutIgre());
-        tvHomeTeam.setText(utakmica.getHomeTeamName());
-        tvAwayTeam.setText(utakmica.getAwayTeamName());
-
-
-        txtDatum.setText(utakmica.getDatum().toString());
-
-        stadion = BazaStadiona.getInstance().getStadion(utakmica.getStadionId());
-        if (stadion != null)
-            txtStadion.setText(stadion.getNaziv());
-        else
-            txtStadion.setText(stadion.getNaziv());
 
         showSastav = true;
         showEvents = true;
-
 
         btnShowSastav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showSastav = showSastav ? false : true;
+                sastavAdapter.notifyDataSetChanged();
                 if (showSastav)
                     llSastav.setVisibility(View.VISIBLE);
                 else
@@ -140,6 +125,12 @@ public class LiveScoreActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        refreshAll();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -171,5 +162,25 @@ public class LiveScoreActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void refreshAll(){
+
+        Utakmica utakmica = Utakmica.getInstance();
+        utakmica.odrediMinutazu();
+        tvCurrentScore.setText(utakmica.getCurrentRezulat());
+        tvCurrentMinute.setText(utakmica.getCurrentMinutIgre());
+        tvHomeTeam.setText(utakmica.getHomeTeamName());
+        tvAwayTeam.setText(utakmica.getAwayTeamName());
+
+
+        txtDatum.setText(utakmica.getDatum().toString());
+
+        stadion = BazaStadiona.getInstance().getStadion(utakmica.getStadionId());
+        if (stadion != null)
+            txtStadion.setText(stadion.getNaziv());
+        else
+            txtStadion.setText(stadion.getNaziv());
+
     }
 }

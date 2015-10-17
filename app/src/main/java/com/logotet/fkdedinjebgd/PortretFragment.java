@@ -21,6 +21,7 @@ public class PortretFragment extends Fragment {
     private static final String TAG = "PortretFragment";
 
     ImageView ivPortret;
+    TextView tvSlideNumber;
     TextView tvFullName;
     TextView tvBirthYear;
     TextView tvDefaultPozicija;
@@ -34,19 +35,21 @@ public class PortretFragment extends Fragment {
 
 
     public static final String ARG_PAGE = "page";
+    public static final String ARG_VRSTA = "vrsta";
     private int mPageNumber;
 
 
-    public static PortretFragment create(int pageNumber) {
+    public static PortretFragment create(int vrsta, int pageNumber) {
         PortretFragment fragment = new PortretFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNumber);
+        args.putInt(ARG_VRSTA, vrsta);
         fragment.setArguments(args);
         return fragment;
     }
 
     public PortretFragment() {
-        vrsta = 1;
+
     }
 
 
@@ -54,13 +57,8 @@ public class PortretFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPageNumber = getArguments().getInt(ARG_PAGE);
+        vrsta = getArguments().getInt(ARG_VRSTA);
         currentidx = mPageNumber;
-
-//        Bundle extras = getIntent().getExtras();
-//        if(extras != null){
-//            vrsta = extras.getInt("vrsta");
-//            currentidx = extras.getInt("currentidx");
-//        }
     }
 
 
@@ -71,6 +69,7 @@ public class PortretFragment extends Fragment {
                 R.layout.fragment_portret, container, false);
 
         ivPortret = (ImageView) rootView.findViewById(R.id.ivPortret);
+        tvSlideNumber = (TextView) rootView.findViewById(R.id.tvSlideNumber);
         tvFullName = (TextView) rootView.findViewById(R.id.tvFullName);
         tvBirthYear = (TextView) rootView.findViewById(R.id.tvBirthYear);
         tvDefaultPozicija = (TextView) rootView.findViewById(R.id.tvDefaultPozicija);
@@ -93,6 +92,7 @@ public class PortretFragment extends Fragment {
     /**
      * Returns the page number represented by this fragment object.
      */
+
     public int getPageNumber()
     {
         currentidx = mPageNumber;
@@ -114,6 +114,7 @@ public class PortretFragment extends Fragment {
                 if (igrac.getTezina() != 0)
                     tvWeight.setText(igrac.getTezina() + "kg");
                 tvDefaultPozicija.setText(BazaPozicija.getInstance().getPozicija(igrac.getDefaultPozicija()).getNaziv());
+                tvSlideNumber.setText((currentidx + 1) + "/" + arrayList.size());
 
                 break;
             case 2:     //management
@@ -123,6 +124,7 @@ public class PortretFragment extends Fragment {
                 tvDefaultPozicija.setText(osoba.getFunkcija());
                 tvNapomena.setText(osoba.getNapomena());
                 tvFullName.setText(osoba.getNaziv());
+                tvSlideNumber.setText((currentidx + 1) + "/" + arrayList.size());
                 break;
             default:
                 arrayList = new ArrayList();

@@ -40,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
         btnStandings = (Button) findViewById(R.id.btnStandings);
         btnLivescore = (Button) findViewById(R.id.btnLivescore);
 
-        preuzmiRaspored();
-        preuzmiTabelu();
-        preuzmiRukovodstvo();
-        preuzmiEkipu();
-        preuzmiNextMatch();
-
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,17 +83,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
         Intent serviceIntent = new Intent(this, MatchService.class);
         startService(serviceIntent);
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-
-        // @todo ucitavanje
+        DataFetcher.preuzmiRaspored();
+        DataFetcher.preuzmiTabelu();
+        DataFetcher.preuzmiRukovodstvo();
+        DataFetcher.preuzmiStadion();
+        DataFetcher.preuzmiEkipu();
+        DataFetcher.preuzmiNextMatch();
     }
 
     @Override
@@ -111,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.action_home:
                 startActivity(new Intent(this, HomeActivity.class));
@@ -132,103 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, LiveScoreActivity.class));
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-    private void preuzmiRaspored() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Fixtures.getInstance().getRaspored().clear();
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETFIXTURES, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
-    private void preuzmiNextMatch() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIVEMATCH, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-
-                    BazaStadiona.getInstance().getTereni().clear();
-                    catcher = new HttpCatcher(RequestPreparator.GETSTADION, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                    catcher = new HttpCatcher(RequestPreparator.SERVERTIME, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                    catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
-
-    private void preuzmiTabelu() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                    Tabela.getInstance().getPlasman().clear();
-                    catcher = new HttpCatcher(RequestPreparator.GETTABELA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
-
-    private void preuzmiRukovodstvo() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Klub.getInstance().getRukovodstvo().clear();
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
-
-    private void preuzmiEkipu() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    BazaPozicija.getInstance().getTimposition().clear();
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETPOZICIJA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                    BazaIgraca.getInstance().getSquad().clear();
-                    catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
 }

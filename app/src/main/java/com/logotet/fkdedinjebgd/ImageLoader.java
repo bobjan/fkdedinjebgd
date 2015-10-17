@@ -77,6 +77,7 @@ public class ImageLoader extends Thread {
                 osoba.setImage(bitmap);
                 osoba.setImageLoaded(true);
             }
+
             handler.post(new Runnable() {
                 @Override
                 public void run() {

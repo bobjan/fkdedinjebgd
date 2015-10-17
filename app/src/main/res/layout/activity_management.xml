@@ -19,7 +19,7 @@
     <com.google.android.gms.ads.AdView
         android:id="@+id/ad4View"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/admob_banner_id"
+        ads:adUnitId="@string/admob_banner_onlistviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

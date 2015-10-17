@@ -59,9 +59,8 @@ public class ManagementActivity extends AppCompatActivity {
 
 
         AdView mAdView = (AdView) findViewById(R.id.ad4View);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("YOUR_DEVICE_HASH")
-                .build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("339FD11B6C11281D").build();
+
         mAdView.loadAd(adRequest);
 
 

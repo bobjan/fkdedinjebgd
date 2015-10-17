@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         ads:adSize="LARGE_BANNER"
-        ads:adUnitId="@string/admob_banner_id">
+        ads:adUnitId="@string/admob_banner_onfixtures">
     </com.google.android.gms.ads.AdView>
 
 

@@ -24,7 +24,6 @@ public class FixturesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixtures);
 
-
         String sezona = Fixtures.getInstance().getSezona();
 
         lvFixtures = (ListView) findViewById(R.id.lvFixtures);
@@ -34,12 +33,8 @@ public class FixturesActivity extends AppCompatActivity {
 //
         tvSezona.setText(sezona);
         AdView mAdView = (AdView) findViewById(R.id.ad2View);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("YOUR_DEVICE_HASH")
-                .build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("339FD11B6C11281D").build();
         mAdView.loadAd(adRequest);
-
-
     }
 
     @Override
@@ -73,9 +68,6 @@ public class FixturesActivity extends AppCompatActivity {
                 startActivity(new Intent(this, LiveScoreActivity.class));
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }

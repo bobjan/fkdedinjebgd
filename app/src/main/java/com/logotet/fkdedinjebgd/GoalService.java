@@ -10,11 +10,13 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
+import com.logotet.util.BJTime;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -25,9 +27,8 @@ public class GoalService extends Service {
     public static final String MY_PREFS_NAME = "DedinjePrefsFile";
     private Utakmica utakmica;
 
-    private final int INTERVAL = 60 * 1000; // jedan minut
+    private final long INTERVAL = 15L * 1000; // 15 sekundi
     private Timer timer;
-
 
     public GoalService() {
         timer = new Timer();
@@ -48,29 +49,32 @@ public class GoalService extends Service {
                     catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                     utakmica = Utakmica.getInstance();
+//                    Log.w(TAG, " urtakmica fetched");
                     if (utakmica != null) {
                         if (!utakmica.getDatum().lessThanToday()) {
-                            if (!utakmica.uToku() && !utakmica.isFinished())
+                            utakmica.odrediMinutazu();
+                            if (utakmica.uToku() && !utakmica.isFinished()) {
                                 if (!isOldResult())
                                     createNotification();
+                            }
+                            if (utakmica.isFinished())
+                                stopSelf();
                         }
-                        if (utakmica.isFinished())
-                            stopSelf();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }, 0, INTERVAL);
+        }, 0L, INTERVAL);
         return super.onStartCommand(intent, flags, startId);
     }
 
     private boolean isOldResult() {
-//        Log.w(TAG, " isOldResult .. test");
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String rezultat = utakmica.getCurrentRezulat();
         String oldRezultat = prefs.getString("currentscore", "0:0");
 
+//        Log.w(TAG, "OldResult " + oldRezultat);
         if (rezultat.equals(oldRezultat))
             return true;
 
@@ -92,6 +96,10 @@ public class GoalService extends Service {
         if (timer != null) {
             timer.cancel();
         }
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("currentscore", "0:0");
+        editor.commit();
         super.onDestroy();
 //        Log.w(TAG, "service  destroyed");
     }
@@ -101,6 +109,7 @@ public class GoalService extends Service {
         notificationBuilder.setSmallIcon(R.mipmap.notifikacija);
         notificationBuilder.setContentTitle("Гооооол!");
         notificationBuilder.setContentText(utakmica.getHomeTeamName() + "-" + utakmica.getAwayTeamName() + " " + utakmica.getCurrentRezulat());
+        notificationBuilder.setAutoCancel(true);
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, LiveScoreActivity.class);
 
@@ -117,10 +126,14 @@ public class GoalService extends Service {
 // mId allows you to update the notification later on.
         notificationManager.notify(0, notificationBuilder.build());
 
-        MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.goooal);
-        mp.start();
-
+        BJTime sada = new BJTime();
+        BJTime jutro = new BJTime("09:00");
+        BJTime vece = new BJTime("22:00");
+        if (sada.getSeconds() > jutro.getSeconds())
+            if (sada.getSeconds() < vece.getSeconds()) {
+                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.goooal);
+                mp.start();
+            }
     }
-
 
 }

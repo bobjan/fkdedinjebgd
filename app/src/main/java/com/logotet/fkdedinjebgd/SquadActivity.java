@@ -55,12 +55,8 @@ public class SquadActivity extends AppCompatActivity {
         });
 
         AdView mAdView = (AdView) findViewById(R.id.ad3View);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("YOUR_DEVICE_HASH")
-                .build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("339FD11B6C11281D").build();
         mAdView.loadAd(adRequest);
-
-
     }
 
     private void loadImage(final Igrac igrac) {
@@ -101,6 +97,4 @@ public class SquadActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
@@ -26,17 +27,12 @@ public class MatchService extends Service {
     public static final String MY_PREFS_NAME = "DedinjePrefsFile";
     private Utakmica utakmica;
 
-    //    private final int INTERVAL = 120 * 60 * 1000; // dva sata
-//    private final int INTERVAL = 120 * 60 * 1000; // dva sata
-    private final int INTERVAL = 5 * 60 * 1000; // 5 minuta
+    private final long INTERVAL = 60L * 60 * 1000; // 1 sat
     private Timer timer;
-
 
     public MatchService() {
         timer = new Timer();
-
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -57,9 +53,10 @@ public class MatchService extends Service {
                     catcher.catchData();
                     utakmica = Utakmica.getInstance();
                     if (utakmica != null) {
+                        utakmica.odrediMinutazu();
 //                            Log.w(TAG, " utakmica != null");
-                        if (!utakmica.getDatum().lessThanToday()) {
-//                                Log.w(TAG, " utakmica.datum  != today");
+                        if (utakmica.getDatum().isToday()) {
+//                                Log.w(TAG, " utakmica.datum  == today");
                             // obraditi dogadjaje
                             pokreniGoalSevice();
                             if (!utakmica.uToku() && !utakmica.isFinished()) {
@@ -75,7 +72,7 @@ public class MatchService extends Service {
                     e.printStackTrace();
                 }
             }
-        }, 0, INTERVAL);
+        }, 0L, INTERVAL);
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -83,7 +80,6 @@ public class MatchService extends Service {
     private void pokreniGoalSevice() {
         Intent serviceIntent = new Intent(this, GoalService.class);
         startService(serviceIntent);
-
     }
 
     private boolean isAlreadyNotified() {
@@ -92,6 +88,8 @@ public class MatchService extends Service {
         String nextMatch = utakmica.getAllInOne();
         String matchNotified = prefs.getString("nextmatch", " ");
 
+//        Log.w(TAG, " old match notified " + matchNotified);
+//        Log.w(TAG, " this match " + nextMatch);
         if (nextMatch.equals(matchNotified))
             return true;
 
@@ -107,6 +105,10 @@ public class MatchService extends Service {
         if (timer != null) {
             timer.cancel();
         }
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("nextmatch", " ");
+
         super.onDestroy();
 //        Log.w(TAG, "service  destroyed");
     }
@@ -123,6 +125,8 @@ public class MatchService extends Service {
         notificationBuilder.setSmallIcon(R.mipmap.notifikacija);
         notificationBuilder.setContentTitle("Нова утакмица");
         notificationBuilder.setContentText(utakmica.getDatum().toString() + " *** " + utakmica.getHomeTeamName() + "-" + utakmica.getAwayTeamName());
+        notificationBuilder.setAutoCancel(true);
+
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, NextMatchActivity.class);
 
@@ -139,5 +143,4 @@ public class MatchService extends Service {
 // mId allows you to update the notification later on.
         notificationManager.notify(0, notificationBuilder.build());
     }
-
 }

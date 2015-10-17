@@ -4,6 +4,7 @@ package com.logotet.fkdedinjebgd.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import com.logotet.dedinjeadmin.model.BazaIgraca;
 import com.logotet.dedinjeadmin.model.Klub;
@@ -23,7 +24,7 @@ public class PortretAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return (Fragment) PortretFragment.create(position);
+        return (Fragment) PortretFragment.create(vrsta, position);
     }
 
     @Override

@@ -19,14 +19,28 @@
             android:layout_height="320dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="0dp"
+            android:paddingBottom="0dp"/>
+
+        <TextView
+            android:id="@+id/tvSlideNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ivPortret"
+            android:paddingTop="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="15dp"
+            android:text="sfdsdfsd"
+            android:textColor="@color/screen_font"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tvFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ivPortret"
+            android:layout_below="@+id/tvSlideNumber"
             android:text="sfdsdfsd"
             android:textColor="@color/screen_font"
             android:textSize="22sp" />
@@ -36,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/ivPortret"
+            android:layout_below="@+id/tvSlideNumber"
             android:layout_toRightOf="@+id/tvFullName"
             android:gravity="right"
             android:text="sfdsdfsd"
@@ -89,5 +103,6 @@
             android:singleLine="false"
             android:textColor="@color/screen_font"
             android:textSize="14sp" />
+
     </RelativeLayout>
 </ScrollView>

@@ -31,6 +31,9 @@
     <string name="btn_lineup">састав</string>
     <string name="title_activity_maps">Map</string>
 
-
     <string name="admob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_banner_onlistviews">ca-app-pub-8245954692474486/8241201853</string>
+    <string name="admob_banner_onfixtures">ca-app-pub-8245954692474486/5287735459</string>
+    <string name="admob_banner_onstandings">ca-app-pub-8245954692474486/6764468658</string>
+
 </resources>
