@@ -1,17 +1,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
 
-    <item android:id="@+id/action_home" android:title="@string/btn_home"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_management" android:title="@string/btn_management"
-        android:orderInCategory="200" app:showAsAction="never" />
-    <item android:id="@+id/action_squad" android:title="@string/btn_squad"
-        android:orderInCategory="300" app:showAsAction="never" />
-    <item android:id="@+id/action_fixtures" android:title="@string/btn_fixtures"
-        android:orderInCategory="400" app:showAsAction="never" />
-    <item android:id="@+id/action_standings" android:title="@string/btn_standings"
-        android:orderInCategory="500" app:showAsAction="never" />
-    <item android:id="@+id/action_livescore" android:title="@string/btn_livescore"
-        android:orderInCategory="600" app:showAsAction="never" />
+    <item
+        android:id="@+id/action_home"
+        android:orderInCategory="100"
+        android:title="@string/btn_home"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_management"
+        android:orderInCategory="200"
+        android:title="@string/btn_management"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_squad"
+        android:orderInCategory="300"
+        android:title="@string/btn_squad"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_fixtures"
+        android:orderInCategory="400"
+        android:title="@string/btn_fixtures"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_standings"
+        android:orderInCategory="500"
+        android:title="@string/btn_standings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_livescore"
+        android:orderInCategory="600"
+        android:title="@string/btn_livescore"
+        app:showAsAction="never" />
+
 </menu>

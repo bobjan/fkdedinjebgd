@@ -10,7 +10,6 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
@@ -19,6 +18,7 @@ import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.util.BJTime;
 
 import java.io.IOException;
+import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,6 +29,12 @@ public class GoalService extends Service {
 
     private final long INTERVAL = 15L * 1000; // 15 sekundi
     private Timer timer;
+
+    private static final int NOSOUND = 0;
+    private static final int GOALSOUND = 1;
+    private static final int BOOSOUND = 2;
+    private int whatsound;
+
 
     public GoalService() {
         timer = new Timer();
@@ -73,10 +79,37 @@ public class GoalService extends Service {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         String rezultat = utakmica.getCurrentRezulat();
         String oldRezultat = prefs.getString("currentscore", "0:0");
+        whatsound = NOSOUND;
 
 //        Log.w(TAG, "OldResult " + oldRezultat);
         if (rezultat.equals(oldRezultat))
             return true;
+
+        try {
+            StringTokenizer st = new StringTokenizer(oldRezultat, ":");
+            int oldHomegoal = Integer.parseInt(st.nextToken());
+            int oldAwaygoal = Integer.parseInt(st.nextToken());
+
+            st = new StringTokenizer(rezultat, ":");
+            int newHomegoal = Integer.parseInt(st.nextToken());
+            int newAwaygoal = Integer.parseInt(st.nextToken());
+
+
+            if (utakmica.isUserTeamDomacin()) {
+                if (newHomegoal > oldHomegoal)
+                    whatsound = GOALSOUND;
+                else if (newAwaygoal > oldAwaygoal)
+                    whatsound = BOOSOUND;
+            } else {
+                if (newHomegoal > oldHomegoal)
+                    whatsound = BOOSOUND;
+                else if (newAwaygoal > oldAwaygoal)
+                    whatsound = GOALSOUND;
+            }
+
+        } catch (NumberFormatException nfe) {
+        } catch (Exception e) {
+        }
 
 //        Log.w(TAG, " isOldResult .. to be false");
         SharedPreferences.Editor editor = prefs.edit();
@@ -84,6 +117,13 @@ public class GoalService extends Service {
         editor.commit();
         return false;
     }
+
+    private boolean getOldSoundPref() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        boolean soundflag = prefs.getBoolean("soundflag", true);
+        return soundflag;
+    }
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -129,11 +169,20 @@ public class GoalService extends Service {
         BJTime sada = new BJTime();
         BJTime jutro = new BJTime("09:00");
         BJTime vece = new BJTime("22:00");
-        if (sada.getSeconds() > jutro.getSeconds())
-            if (sada.getSeconds() < vece.getSeconds()) {
-                MediaPlayer mp = MediaPlayer.create(getApplicationContext(), R.raw.goooal);
-                mp.start();
-            }
+        if (getOldSoundPref()) {
+            if (sada.getSeconds() > jutro.getSeconds())
+                if (sada.getSeconds() < vece.getSeconds()) {
+                    MediaPlayer mp = null;
+                    if (whatsound == GOALSOUND)
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.shortgoal);
+                    else if (whatsound == BOOSOUND)
+                        mp = MediaPlayer.create(getApplicationContext(), R.raw.boo);
+                    if ((mp != null) && (whatsound != NOSOUND)) {
+                        mp.start();
+//                        mp.release();
+                    }
+                }
+        }
     }
 
 }

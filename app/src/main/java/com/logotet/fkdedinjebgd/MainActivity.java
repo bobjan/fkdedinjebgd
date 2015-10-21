@@ -1,32 +1,29 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import com.logotet.dedinjeadmin.AllStatic;
-import com.logotet.dedinjeadmin.HttpCatcher;
-import com.logotet.dedinjeadmin.model.BazaIgraca;
-import com.logotet.dedinjeadmin.model.BazaPozicija;
-import com.logotet.dedinjeadmin.model.BazaStadiona;
-import com.logotet.dedinjeadmin.model.Fixtures;
-import com.logotet.dedinjeadmin.model.Klub;
-import com.logotet.dedinjeadmin.model.Tabela;
-import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
-
-import java.io.IOException;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+    public static final String MY_PREFS_NAME = "DedinjePrefsFile";
+
     Button btnHome;
     Button btnManagement;
     Button btnSquad;
     Button btnFixtures;
     Button btnStandings;
     Button btnLivescore;
+
+    Switch switchSound;
+    boolean soundflag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         btnFixtures = (Button) findViewById(R.id.btnFixtures);
         btnStandings = (Button) findViewById(R.id.btnStandings);
         btnLivescore = (Button) findViewById(R.id.btnLivescore);
+
+        switchSound = (Switch) findViewById(R.id.swSound);
+
+
+        switchSound.setChecked(getOldSoundPref());
+
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +86,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        switchSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                soundflag = isChecked;
+                setNewSoundPref(soundflag);
+
+            }
+        });
+
         Intent serviceIntent = new Intent(this, MatchService.class);
         startService(serviceIntent);
     }
@@ -128,5 +141,17 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    private boolean getOldSoundPref(){
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        soundflag = prefs.getBoolean("soundflag", true);
+        return soundflag;
+    }
+
+    private void setNewSoundPref(boolean flag){
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("soundflag", flag);
+        editor.commit();
     }
 }

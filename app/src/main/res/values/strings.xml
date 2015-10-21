@@ -16,6 +16,7 @@
     <string name="title_activity_live_score">Уживо праћење резултата</string>
     <string name="title_activity_next_match">Следећа утакмица</string>
 
+    <string name="prompt_sound">Звук за гол</string>
     <string name="prompt_stadion">Стадион</string>
     <string name="prompt_sezona">сезона</string>
     <string name="prompt_datum_osnivanja">Датум оснивања:</string>

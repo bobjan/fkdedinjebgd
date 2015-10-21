@@ -39,7 +39,7 @@ public class StandingsActivity extends AppCompatActivity {
         tvOdigranoKolo.setText("после " + Tabela.getInstance().getLastRound() + ". кола");
 
         AdView mAdView = (AdView) findViewById(R.id.ad1View);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("339FD11B6C11281D").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("B28574CD0A9CA2F7FCCFF26090B8385C").addTestDevice("E41AFA768EE9855050236B1E36F530EF").build();
 
         mAdView.loadAd(adRequest);
 

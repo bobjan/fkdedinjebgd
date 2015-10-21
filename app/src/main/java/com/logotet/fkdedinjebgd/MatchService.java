@@ -14,6 +14,7 @@ import android.util.Log;
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.BazaStadiona;
+import com.logotet.dedinjeadmin.model.BazaTimova;
 import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 
@@ -27,7 +28,7 @@ public class MatchService extends Service {
     public static final String MY_PREFS_NAME = "DedinjePrefsFile";
     private Utakmica utakmica;
 
-    private final long INTERVAL = 60L * 60 * 1000; // 1 sat
+    private final long INTERVAL = 4L * 60 * 1000; // 1 sat
     private Timer timer;
 
     public MatchService() {
@@ -44,6 +45,9 @@ public class MatchService extends Service {
             public void run() {
                 try {
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIVEMATCH, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    BazaTimova.getInstance().getProtivnici().clear();
+                    catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
 
                     BazaStadiona.getInstance().getTereni().clear();
@@ -96,6 +100,7 @@ public class MatchService extends Service {
 //        Log.w(TAG, " isAlready .. to be false");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("nextmatch", nextMatch);
+        editor.putString("currentscore", "0:0");
         editor.commit();
         return false;
     }
