@@ -5,12 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.logotet.fkdedinjebgd.adapters.PortretAdapter;
-
-import java.util.ArrayList;
 
 public class PortretActivity extends FragmentActivity {
     private static final String TAG = "PortretActivity";

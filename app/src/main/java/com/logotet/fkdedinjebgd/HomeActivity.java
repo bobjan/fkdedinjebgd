@@ -5,15 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.logotet.dedinjeadmin.AllStatic;
+import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
 import com.logotet.dedinjeadmin.model.Klub;
+import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,6 +41,8 @@ public class HomeActivity extends AppCompatActivity {
     Handler handler;
     byte[] bitmapBytes;
 
+    ProgressBar pbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,25 +58,31 @@ public class HomeActivity extends AppCompatActivity {
         tvMatbroj = (TextView) findViewById(R.id.tvMatbroj);
         tvTekrac = (TextView) findViewById(R.id.tvTekrac);
 
-        tvPunNaziv.setText(AppHeaderData.getInstance().getUserTeamName());
+        pbar = (ProgressBar) findViewById(R.id.pbarHome);
 
-        Klub klub = Klub.getInstance();
-
-        tvDatumOsnivanja.setText(klub.getDatumOsnivanja().toString());
-        tvMesto.setText(klub.getMesto());
-        tvAdresa.setText(klub.getAdresa());
-        tvEmail.setText(klub.getEmail());
-        tvWeb.setText(klub.getWeb());
-        tvPib.setText(klub.getPib());
-        tvMatbroj.setText(klub.getMatbroj());
-        tvTekrac.setText(klub.getTekrac());
-
-
+        pbar.setVisibility(View.VISIBLE);
         ivMainPhoto = (ImageView) findViewById(R.id.ivMainPhoto);
 
-        handler = new Handler();
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 1) {
+                    tvPunNaziv.setText(AppHeaderData.getInstance().getUserTeamName());
+                    Klub klub = Klub.getInstance();
+                    tvDatumOsnivanja.setText(klub.getDatumOsnivanja().toString());
+                    tvMesto.setText(klub.getMesto());
+                    tvAdresa.setText(klub.getAdresa());
+                    tvEmail.setText(klub.getEmail());
+                    tvWeb.setText(klub.getWeb());
+                    tvPib.setText(klub.getPib());
+                    tvMatbroj.setText(klub.getMatbroj());
+                    tvTekrac.setText(klub.getTekrac());
+                    pbar.setVisibility(View.GONE);
+                }
+            }
+        };
+        preuzmiKlub();
 
-        preuzmiSliku(Klub.getInstance().getFrontimage());
 
     }
 
@@ -147,4 +160,27 @@ public class HomeActivity extends AppCompatActivity {
         });
         thread.start();
     }
+
+
+    private void preuzmiKlub() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Klub.getInstance().getRukovodstvo().clear();
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    handler.sendEmptyMessage(1);
+                    preuzmiSliku(Klub.getInstance().getFrontimage());
+                } catch (IOException e) {
+                    handler.sendEmptyMessage(0);
+                }
+            }
+        });
+        thread.start();
+    }
+
+
 }

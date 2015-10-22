@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;

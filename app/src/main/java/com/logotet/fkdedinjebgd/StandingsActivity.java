@@ -2,17 +2,26 @@ package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.logotet.dedinjeadmin.AllStatic;
+import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
 import com.logotet.dedinjeadmin.model.Tabela;
+import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.fkdedinjebgd.adapters.StandingsAdapter;
+
+import java.io.IOException;
 
 public class StandingsActivity extends AppCompatActivity {
     private static final String TAG = "StandingsActivity";
@@ -22,11 +31,15 @@ public class StandingsActivity extends AppCompatActivity {
     ListView lvStandings;
     private StandingsAdapter standingsAdapter;
 
+    Handler handler;
+    ProgressBar pbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_standings);
 
+        Tabela.getInstance().getPlasman().clear();
         lvStandings = (ListView) findViewById(R.id.lvStandings);
         standingsAdapter = new StandingsAdapter(this);
         lvStandings.setAdapter(standingsAdapter);
@@ -34,12 +47,30 @@ public class StandingsActivity extends AppCompatActivity {
         tvNazivLige = (TextView) findViewById(R.id.tvNazivLige);
         tvOdigranoKolo = (TextView) findViewById(R.id.tvOdigranoKolo);
         lvStandings = (ListView) findViewById(R.id.lvStandings);
+        pbar = (ProgressBar) findViewById(R.id.pbarStandings);
+        pbar.setVisibility(View.VISIBLE);
 
-        tvNazivLige.setText(AppHeaderData.getInstance().getNazivLige());
-        tvOdigranoKolo.setText("после " + Tabela.getInstance().getLastRound() + ". кола");
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == 1) {
+                    tvNazivLige.setText(AppHeaderData.getInstance().getNazivLige());
+                    tvOdigranoKolo.setText("после " + Tabela.getInstance().getLastRound() + ". кола");
+                    standingsAdapter.notifyDataSetChanged();
+                    pbar.setVisibility(View.GONE);
+                }
+            }
+        };
+
+        preuzmiTabelu();
 
         AdView mAdView = (AdView) findViewById(R.id.ad1View);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("B28574CD0A9CA2F7FCCFF26090B8385C").addTestDevice("E41AFA768EE9855050236B1E36F530EF").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("B28574CD0A9CA2F7FCCFF26090B8385C")
+                .addTestDevice("E41AFA768EE9855050236B1E36F530EF")
+                .addTestDevice("7D6799C2FA3E8750288C0C1502069E5D")
+                .build();
 
         mAdView.loadAd(adRequest);
 
@@ -77,5 +108,24 @@ public class StandingsActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void preuzmiTabelu() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    catcher = new HttpCatcher(RequestPreparator.GETTABELA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    handler.sendEmptyMessage(1);
+
+                } catch (IOException e) {
+                    handler.sendEmptyMessage(0);
+                }
+            }
+        });
+        thread.start();
     }
 }

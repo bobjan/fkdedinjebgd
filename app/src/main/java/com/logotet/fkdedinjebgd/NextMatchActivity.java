@@ -75,7 +75,11 @@ public class NextMatchActivity extends AppCompatActivity {
         });
 
         AdView mAdView = (AdView) findViewById(R.id.ad5View);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("B28574CD0A9CA2F7FCCFF26090B8385C").addTestDevice("E41AFA768EE9855050236B1E36F530EF").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("B28574CD0A9CA2F7FCCFF26090B8385C")
+                .addTestDevice("E41AFA768EE9855050236B1E36F530EF")
+                .addTestDevice("7D6799C2FA3E8750288C0C1502069E5D")
+                .build();
 
         mAdView.loadAd(adRequest);
     }

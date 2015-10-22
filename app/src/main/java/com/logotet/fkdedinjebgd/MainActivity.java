@@ -103,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DataFetcher.preuzmiRaspored();
-        DataFetcher.preuzmiTabelu();
-        DataFetcher.preuzmiRukovodstvo();
-        DataFetcher.preuzmiStadion();
-        DataFetcher.preuzmiEkipu();
-        DataFetcher.preuzmiNextMatch();
+//        DataFetcher.preuzmiRaspored();
+//        DataFetcher.preuzmiTabelu();
+//        DataFetcher.preuzmiRukovodstvo();
+//        DataFetcher.preuzmiStadion();
+//        DataFetcher.preuzmiEkipu();
+//        DataFetcher.preuzmiNextMatch();
     }
 
     @Override
@@ -142,13 +142,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private boolean getOldSoundPref(){
+
+    private boolean getOldSoundPref() {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         soundflag = prefs.getBoolean("soundflag", true);
         return soundflag;
     }
 
-    private void setNewSoundPref(boolean flag){
+    private void setNewSoundPref(boolean flag) {
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("soundflag", flag);

@@ -82,9 +82,7 @@ public class ImageLoader extends Thread {
                 @Override
                 public void run() {
                     adapter.notifyDataSetChanged();
-//                            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-//                    ivMainPhoto.setImageBitmap(bitmap);
-//                            ivMainPhoto.invalidate();
+
                 }
             });
         } catch (IOException e) {

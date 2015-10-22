@@ -25,5 +25,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"></com.google.android.gms.ads.AdView>
 
-
+    <ProgressBar
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pbarManagement"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:max="100"
+        android:progress="0"/>
 </RelativeLayout>

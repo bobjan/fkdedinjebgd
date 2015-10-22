@@ -93,8 +93,7 @@ public class PortretFragment extends Fragment {
      * Returns the page number represented by this fragment object.
      */
 
-    public int getPageNumber()
-    {
+    public int getPageNumber() {
         currentidx = mPageNumber;
         return mPageNumber;
     }

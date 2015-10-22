@@ -4,19 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.logotet.dedinjeadmin.AllStatic;
+import com.logotet.dedinjeadmin.HttpCatcher;
+import com.logotet.dedinjeadmin.model.Fixtures;
 import com.logotet.dedinjeadmin.model.Klub;
 import com.logotet.dedinjeadmin.model.Osoba;
+import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.fkdedinjebgd.adapters.ManagementAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ManagementActivity extends AppCompatActivity {
@@ -26,6 +33,7 @@ public class ManagementActivity extends AppCompatActivity {
 
     Handler handler;
     private Context context;
+    ProgressBar pbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +41,36 @@ public class ManagementActivity extends AppCompatActivity {
         context = getApplicationContext();
         setContentView(R.layout.activity_management);
 
+        Klub.getInstance().getRukovodstvo().clear();
+
         lvRukovodstvo = (ListView) findViewById(R.id.lvManagement);
+        pbar = (ProgressBar) findViewById(R.id.pbarManagement);
+
         managerAdapter = new ManagementAdapter(this);
         lvRukovodstvo.setAdapter(managerAdapter);
+        pbar.setVisibility(View.VISIBLE);
 
-        handler = new Handler();
-        rukovodstvo = Klub.getInstance().getRukovodstvo();
-        for (int idx = 0; idx < rukovodstvo.size(); idx++) {
-            Osoba osoba = rukovodstvo.get(idx);
-            if (!osoba.isImageLoaded()) {
-                loadImage(osoba);
+       handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                if(msg.what == 0){
+                    // Toast internet error!
+                }
+                if(msg.what == 1){
+                    rukovodstvo = Klub.getInstance().getRukovodstvo();
+                    managerAdapter.notifyDataSetChanged();
+                    pbar.setVisibility(View.GONE);
+                    for (int idx = 0; idx < rukovodstvo.size(); idx++) {
+                        Osoba osoba = rukovodstvo.get(idx);
+                        if (!osoba.isImageLoaded()) {
+                            loadImage(osoba);
+                        }
+                    }
+                }
             }
-        }
+        };
+
+        preuzmiRukovodstvo();
 
         lvRukovodstvo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -57,10 +83,13 @@ public class ManagementActivity extends AppCompatActivity {
         });
 
         AdView mAdView = (AdView) findViewById(R.id.ad4View);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("B28574CD0A9CA2F7FCCFF26090B8385C").addTestDevice("E41AFA768EE9855050236B1E36F530EF").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("B28574CD0A9CA2F7FCCFF26090B8385C")
+                .addTestDevice("E41AFA768EE9855050236B1E36F530EF")
+                .addTestDevice("7D6799C2FA3E8750288C0C1502069E5D")
+                .build();
 
         mAdView.loadAd(adRequest);
-
     }
 
     private void loadImage(final Osoba osoba) {
@@ -101,5 +130,23 @@ public class ManagementActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void preuzmiRukovodstvo() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+                    handler.sendEmptyMessage(1);
+
+                } catch (IOException e) {
+                    handler.sendEmptyMessage(0);
+                }
+            }
+        });
+        thread.start();
     }
 }
