@@ -27,9 +27,10 @@ public class ManagementAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     ArrayList arrayList;
 
-    public ManagementAdapter(Activity activity) {
+    public ManagementAdapter(Activity activity, ArrayList<Osoba> lista) {
         this.activity = activity;
-        arrayList = Klub.getInstance().getRukovodstvo();
+        arrayList = lista;
+//        arrayList = Klub.getInstance().getRukovodstvo();
     }
 
     @Override

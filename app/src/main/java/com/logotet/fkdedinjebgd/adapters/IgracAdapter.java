@@ -20,6 +20,7 @@ import com.logotet.dedinjeadmin.model.Pozicija;
 import com.logotet.fkdedinjebgd.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by boban on 8/30/15.
@@ -27,14 +28,13 @@ import java.util.ArrayList;
 public class IgracAdapter extends BaseAdapter {
     private static final String TAG = "IgracAdapter";
     Activity activity;
-    ArrayList arrayList;
+    ArrayList<Igrac> arrayList;
     private LayoutInflater inflater;
 
-    Intent portret;
-
-    public IgracAdapter(Activity activity) {
+    public IgracAdapter(Activity activity, ArrayList<Igrac> lista) {
         this.activity = activity;
-        arrayList = BazaIgraca.getInstance().getSquad();
+        this.arrayList = lista;
+//        arrayList = BazaIgraca.getInstance().getSquad();
     }
 
     @Override

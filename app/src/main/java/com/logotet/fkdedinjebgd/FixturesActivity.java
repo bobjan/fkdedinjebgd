@@ -11,16 +11,18 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.Fixtures;
+import com.logotet.dedinjeadmin.model.FixturesRow;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.fkdedinjebgd.adapters.FixturesAdapter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FixturesActivity extends AppCompatActivity {
     private static final String TAG = "FixturesActivity";
@@ -28,6 +30,7 @@ public class FixturesActivity extends AppCompatActivity {
     ListView lvFixtures;
     private FixturesAdapter fixturesAdapter;
     Handler handler;
+    ArrayList<FixturesRow> raspored;
 
     ProgressBar pbar;
 
@@ -36,28 +39,36 @@ public class FixturesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixtures);
 
-        Fixtures.getInstance().getRaspored().clear();
+//        Fixtures.getInstance().getRaspored().clear();
+
+        raspored = new ArrayList<FixturesRow>();
 
         lvFixtures = (ListView) findViewById(R.id.lvFixtures);
         pbar = (ProgressBar) findViewById(R.id.pbarFixtures);
 
-        fixturesAdapter = new FixturesAdapter(this);
-        lvFixtures.setAdapter(fixturesAdapter);
+        fixturesAdapter = new FixturesAdapter(this, raspored);
         tvSezona = (TextView) findViewById(R.id.tvSeason);
         pbar.setVisibility(View.VISIBLE);
+        lvFixtures.setAdapter(fixturesAdapter);
 //
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                if(msg.what == 0){
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
+                }
                 if (msg.what == 1) {
                     String sezona = Fixtures.getInstance().getSezona();
                     tvSezona.setText(sezona);
+                    raspored.clear();
+                    raspored.addAll(Fixtures.getInstance().getRaspored());
                     fixturesAdapter.notifyDataSetChanged();
                     pbar.setVisibility(View.GONE);
                 }
             }
         };
         preuzmiRaspored();
+
 
         AdView mAdView = (AdView) findViewById(R.id.ad2View);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -119,5 +130,4 @@ public class FixturesActivity extends AppCompatActivity {
         });
         thread.start();
     }
-
 }

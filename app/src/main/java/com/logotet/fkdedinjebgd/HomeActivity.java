@@ -13,8 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.logotet.dedinjeadmin.AllStatic;
+
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
 import com.logotet.dedinjeadmin.model.Klub;
@@ -66,6 +67,9 @@ public class HomeActivity extends AppCompatActivity {
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
+                if(msg.what == 0){
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
+                }
                 if (msg.what == 1) {
                     tvPunNaziv.setText(AppHeaderData.getInstance().getUserTeamName());
                     Klub klub = Klub.getInstance();
@@ -167,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Klub.getInstance().getRukovodstvo().clear();
+//                    Klub.getInstance().getRukovodstvo().clear();
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                     catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);

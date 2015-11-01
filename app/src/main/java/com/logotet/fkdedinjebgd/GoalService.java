@@ -6,12 +6,14 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
-import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
@@ -35,17 +37,39 @@ public class GoalService extends Service {
     private static final int BOOSOUND = 2;
     private int whatsound;
 
+    private SoundPool soundPool;
+    private int booSoundID;
+    private int goalSoundID;
+    boolean loadedSounds;
+    float actVolume, maxVolume, volume;
+    AudioManager audioManager;
+
+    private MediaPlayer mediaPlayer;
 
     public GoalService() {
         timer = new Timer();
+        loadedSounds = false;
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        Log.w(TAG, "service started");
+        audioManager = (AudioManager) this.getApplicationContext().getSystemService(AUDIO_SERVICE);
+        actVolume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        maxVolume = (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume = actVolume / maxVolume;
 
-        // Execute an action after period time
+        soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,int status) {
+                loadedSounds = true;
+            }
+        });
+        goalSoundID = soundPool.load(this.getApplicationContext(), R.raw.shortgoal, 1);
+        booSoundID = soundPool.load(this.getApplicationContext(), R.raw.boo, 1);
+
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -81,7 +105,6 @@ public class GoalService extends Service {
         String oldRezultat = prefs.getString("currentscore", "0:0");
         whatsound = NOSOUND;
 
-//        Log.w(TAG, "OldResult " + oldRezultat);
         if (rezultat.equals(oldRezultat))
             return true;
 
@@ -94,7 +117,6 @@ public class GoalService extends Service {
             int newHomegoal = Integer.parseInt(st.nextToken());
             int newAwaygoal = Integer.parseInt(st.nextToken());
 
-
             if (utakmica.isUserTeamDomacin()) {
                 if (newHomegoal > oldHomegoal)
                     whatsound = GOALSOUND;
@@ -106,12 +128,10 @@ public class GoalService extends Service {
                 else if (newAwaygoal > oldAwaygoal)
                     whatsound = GOALSOUND;
             }
-
         } catch (NumberFormatException nfe) {
         } catch (Exception e) {
         }
 
-//        Log.w(TAG, " isOldResult .. to be false");
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("currentscore", rezultat);
         editor.commit();
@@ -123,7 +143,6 @@ public class GoalService extends Service {
         boolean soundflag = prefs.getBoolean("soundflag", true);
         return soundflag;
     }
-
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -143,6 +162,7 @@ public class GoalService extends Service {
         super.onDestroy();
 //        Log.w(TAG, "service  destroyed");
     }
+
 
     public void createNotification() {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
@@ -169,17 +189,21 @@ public class GoalService extends Service {
         BJTime sada = new BJTime();
         BJTime jutro = new BJTime("09:00");
         BJTime vece = new BJTime("22:00");
+
+
+            Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(400);
+
         if (getOldSoundPref()) {
             if (sada.getSeconds() > jutro.getSeconds())
                 if (sada.getSeconds() < vece.getSeconds()) {
-                    MediaPlayer mp = null;
-                    if (whatsound == GOALSOUND)
-                        mp = MediaPlayer.create(getApplicationContext(), R.raw.shortgoal);
-                    else if (whatsound == BOOSOUND)
-                        mp = MediaPlayer.create(getApplicationContext(), R.raw.boo);
-                    if ((mp != null) && (whatsound != NOSOUND)) {
-                        mp.start();
-//                        mp.release();
+                    if (whatsound == GOALSOUND) {
+                        if(loadedSounds)
+                            soundPool.play(goalSoundID,volume,volume,1,0,1f);
+                    }else
+                    if (whatsound == BOOSOUND) {
+                        if(loadedSounds)
+                            soundPool.play(booSoundID,volume,volume,1,0,1f);
                     }
                 }
         }

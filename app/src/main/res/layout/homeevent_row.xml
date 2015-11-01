@@ -10,10 +10,10 @@
         android:id="@+id/tvhEventMinut"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-       android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:textColor="@color/screen_font"
-        android:textSize="12sp" />
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/tvhPlayer"
@@ -22,7 +22,7 @@
         android:layout_toRightOf="@id/tvhEventMinut"
         android:layout_centerVertical="true"
         android:textColor="@color/screen_font"
-        android:textSize="12sp" />
+        android:textSize="12dp" />
 
     <ImageView
         android:id="@+id/ivhFirstIcon"
@@ -39,8 +39,8 @@
         android:layout_centerVertical="true"
         android:textColor="@color/complementlght"
         android:gravity="clip_horizontal"
-        android:textSize="12sp"
-        android:layout_toRightOf="@id/ivhFirstIcon"/>
+        android:textSize="12dp"
+        android:layout_toRightOf="@id/ivhFirstIcon" />
 
     <ImageView
         android:id="@+id/ivhSecondIcon"
@@ -48,6 +48,6 @@
         android:layout_height="24dp"
         android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

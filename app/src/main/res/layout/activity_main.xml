@@ -10,18 +10,19 @@
 
     <ImageView
         android:id="@+id/ivFrontImage"
-        android:layout_width="330dp"
-        android:layout_height="330dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
         android:src="@drawable/fkdedinjebgd" />
 
     <LinearLayout
         android:id="@+id/ll_navFirstLine"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/ivFrontImage">
+        android:layout_below="@+id/ivFrontImage"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnHomeAction"
@@ -32,19 +33,20 @@
             android:background="@color/baseclr"
             android:text="@string/btn_home"
             android:textAllCaps="false"
-            android:textColor="@color/complementlght" />
+            android:textColor="@color/complementlght"
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/btnManagement"
             android:layout_width="0dp"
-
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:layout_weight="1"
             android:background="@color/baseclr"
             android:text="@string/btn_management"
             android:textAllCaps="false"
-            android:textColor="@color/complementlght" />
+            android:textColor="@color/complementlght"
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/btnSquad"
@@ -55,15 +57,16 @@
             android:background="@color/baseclr"
             android:text="@string/btn_squad"
             android:textAllCaps="false"
-            android:textColor="@color/complementlght" />
+            android:textColor="@color/complementlght"
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_navSecondLine"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/ll_navFirstLine">
+        android:layout_below="@+id/ll_navFirstLine"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnFixtures"
@@ -74,7 +77,8 @@
             android:background="@color/baseclr"
             android:text="@string/btn_fixtures"
             android:textAllCaps="false"
-            android:textColor="@color/complementlght" />
+            android:textColor="@color/complementlght"
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/btnStandings"
@@ -85,7 +89,8 @@
             android:background="@color/baseclr"
             android:text="@string/btn_standings"
             android:textAllCaps="false"
-            android:textColor="@color/complementlght" />
+            android:textColor="@color/complementlght"
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/btnLivescore"
@@ -96,20 +101,22 @@
             android:background="@color/baseclr"
             android:text="@string/btn_livescore"
             android:textAllCaps="false"
-            android:textColor="@color/complementlght" />
+            android:textColor="@color/complementlght"
+            android:textSize="14dp" />
     </LinearLayout>
 
     <Switch
         android:id="@+id/swSound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:checked="false"
-        android:text="@string/prompt_sound"
-                android:textOff="-"
-        android:textOn="+"
         android:switchMinWidth="86dp"
+        android:text="@string/prompt_sound"
+        android:textOff="-"
+        android:textOn="+"
+        android:textSize="14dp"
         android:thumb="@drawable/thumb"
         android:track="@drawable/track"
 

@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.BazaIgraca;
 import com.logotet.dedinjeadmin.model.BazaStadiona;
@@ -25,6 +25,7 @@ import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.fkdedinjebgd.adapters.ClientEventsAdapter;
 import com.logotet.fkdedinjebgd.adapters.ClientIgracAdapter;
+import com.logotet.util.BJDatum;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -60,7 +61,7 @@ public class LiveScoreActivity extends AppCompatActivity {
     Intent mapsActivity;
     Handler handler;
 
-    private final long INTERVAL = 15L * 1000; // 15 sekundi
+    private final long INTERVAL = 60L * 1000; // 60 sekundi
     private Timer timer;
 
     @Override
@@ -97,9 +98,13 @@ public class LiveScoreActivity extends AppCompatActivity {
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
+                if(msg.what == 0){
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
+                }
                 if(msg.what == 1){
                     refreshAll();
                     pbar.setVisibility(View.GONE);
+                    sastavAdapter.reload();
                     eventsAdapter.notifyDataSetChanged();
                     sastavAdapter.notifyDataSetChanged();
                 }
@@ -114,6 +119,7 @@ public class LiveScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showSastav = showSastav ? false : true;
+                sastavAdapter.reload();
                 sastavAdapter.notifyDataSetChanged();
                 if (showSastav)
                     llSastav.setVisibility(View.VISIBLE);
@@ -230,7 +236,6 @@ public class LiveScoreActivity extends AppCompatActivity {
             txtStadion.setText(stadion.getNaziv());
     }
 
-
     private void preuzmiMatch() {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -254,6 +259,7 @@ public class LiveScoreActivity extends AppCompatActivity {
 
                     catcher = new HttpCatcher(RequestPreparator.GETLIVEMATCH, AllStatic.HTTPHOST, null);
                     catcher.catchData();
+                    BazaIgraca.getInstance().refreshBrojeviNaDresu();
                     if (!Utakmica.getInstance().getDatum().greaterThanToday()) {
                         catcher = new HttpCatcher(RequestPreparator.GETSASTAV, AllStatic.HTTPHOST, null);
                         catcher.catchData();
@@ -269,5 +275,4 @@ public class LiveScoreActivity extends AppCompatActivity {
         });
         thread.start();
     }
-
 }

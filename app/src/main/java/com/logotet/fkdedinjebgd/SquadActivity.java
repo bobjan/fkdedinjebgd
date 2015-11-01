@@ -12,15 +12,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.logotet.dedinjeadmin.AllStatic;
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.BazaIgraca;
 import com.logotet.dedinjeadmin.model.BazaPozicija;
 import com.logotet.dedinjeadmin.model.Igrac;
-import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.fkdedinjebgd.adapters.IgracAdapter;
 
@@ -43,11 +42,12 @@ public class SquadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_squad);
 
         BazaPozicija.getInstance().getTimposition().clear();
-        BazaIgraca.getInstance().getSquad().clear();
+//        BazaIgraca.getInstance().getSquad().clear();
+        ekipa = new ArrayList<Igrac>();
 
         pbar = (ProgressBar) findViewById(R.id.pbarSquad);
         lvSquad = (ListView) findViewById(R.id.lvSquad);
-        igracAdapter = new IgracAdapter(this);
+        igracAdapter = new IgracAdapter(this,ekipa);
         lvSquad.setAdapter(igracAdapter);
 
         pbar.setVisibility(View.VISIBLE);
@@ -55,8 +55,9 @@ public class SquadActivity extends AppCompatActivity {
             @Override
             public void handleMessage(Message msg) {
                 if(msg.what == 1){
+                    ekipa.clear();
+                    ekipa.addAll(BazaIgraca.getInstance().getSquad());
                     pbar.setVisibility(View.GONE);
-                    ekipa = BazaIgraca.getInstance().getSquad();
                     igracAdapter.notifyDataSetChanged();
                     for (int idx = 0; idx < ekipa.size(); idx++) {
                         Igrac igrac = ekipa.get(idx);
@@ -65,9 +66,17 @@ public class SquadActivity extends AppCompatActivity {
                         }
                     }
                 }
+                if(msg.what == 2){
+                    igracAdapter.notifyDataSetChanged();
+                }
+                if(msg.what == 0){
+                    Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.network_error),Toast.LENGTH_LONG).show();
+                }
             }
         };
+
         preuzmiEkipu();
+
         lvSquad.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -88,7 +97,7 @@ public class SquadActivity extends AppCompatActivity {
     }
 
     private void loadImage(final Igrac igrac) {
-        Thread thread = new ImageLoader(igrac, handler, igracAdapter);
+        Thread thread = new ImageLoader(igrac, handler);
         thread.start();
     }
 
@@ -137,6 +146,7 @@ public class SquadActivity extends AppCompatActivity {
                     catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                     handler.sendEmptyMessage(1);
+
                 } catch (IOException e) {
                     handler.sendEmptyMessage(0);
                 }

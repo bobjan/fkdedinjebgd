@@ -39,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         switchSound = (Switch) findViewById(R.id.swSound);
 
-
         switchSound.setChecked(getOldSoundPref());
-
 
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,16 +98,6 @@ public class MainActivity extends AppCompatActivity {
         startService(serviceIntent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        DataFetcher.preuzmiRaspored();
-//        DataFetcher.preuzmiTabelu();
-//        DataFetcher.preuzmiRukovodstvo();
-//        DataFetcher.preuzmiStadion();
-//        DataFetcher.preuzmiEkipu();
-//        DataFetcher.preuzmiNextMatch();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

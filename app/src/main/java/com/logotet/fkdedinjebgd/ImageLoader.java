@@ -5,7 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.widget.BaseAdapter;
 
-import com.logotet.dedinjeadmin.AllStatic;
+
 import com.logotet.dedinjeadmin.model.Igrac;
 import com.logotet.dedinjeadmin.model.Osoba;
 
@@ -24,20 +24,17 @@ public class ImageLoader extends Thread {
     Handler handler;
     byte[] bitmapBytes;
     boolean forIgrac;
-    BaseAdapter adapter;
 
-    public ImageLoader(Igrac igrac, Handler hdl, BaseAdapter adapter) {
+    public ImageLoader(Igrac igrac, Handler hdl) {
         this.igrac = igrac;
         this.handler = hdl;
         forIgrac = true;
-        this.adapter = adapter;
     }
 
-    public ImageLoader(Osoba osoba, Handler hdl, BaseAdapter adapter) {
+    public ImageLoader(Osoba osoba, Handler hdl) {
         this.osoba = osoba;
         this.handler = hdl;
         forIgrac = false;
-        this.adapter = adapter;
     }
 
     @Override
@@ -71,29 +68,22 @@ public class ImageLoader extends Thread {
             }
             final Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length);
             if (forIgrac) {
-                igrac.setImage(bitmap);
-                igrac.setImageLoaded(true);
+                    igrac.setImage(bitmap);
+                    igrac.setImageLoaded(true);
             } else {
-                osoba.setImage(bitmap);
-                osoba.setImageLoaded(true);
+                    osoba.setImage(bitmap);
+                    osoba.setImageLoaded(true);
             }
 
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-
-                }
-            });
+            handler.sendEmptyMessage(2);
         } catch (IOException e) {
             if (forIgrac) {
-                igrac.setImage(null);
-                igrac.setImageLoaded(false);
+                    igrac.setImage(null);
+                    igrac.setImageLoaded(false);
             } else {
-                osoba.setImage(null);
-                osoba.setImageLoaded(true);
+                    osoba.setImage(null);
+                    osoba.setImageLoaded(true);
             }
-//            e.printStackTrace();
         }
     }
 }

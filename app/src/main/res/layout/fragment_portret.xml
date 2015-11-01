@@ -11,7 +11,7 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"        >
+        android:paddingTop="@dimen/activity_vertical_margin">
 
         <ImageView
             android:id="@+id/ivPortret"
@@ -20,7 +20,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="0dp"
-            android:paddingBottom="0dp"/>
+            android:paddingBottom="0dp" />
 
         <TextView
             android:id="@+id/tvSlideNumber"
@@ -33,7 +33,7 @@
             android:layout_marginBottom="15dp"
             android:text="sfdsdfsd"
             android:textColor="@color/screen_font"
-            android:textSize="10sp" />
+            android:textSize="10dp" />
 
         <TextView
             android:id="@+id/tvFullName"
@@ -43,7 +43,7 @@
             android:layout_below="@+id/tvSlideNumber"
             android:text="sfdsdfsd"
             android:textColor="@color/screen_font"
-            android:textSize="22sp" />
+            android:textSize="22dp" />
 
         <TextView
             android:id="@+id/tvBirthYear"
@@ -55,7 +55,7 @@
             android:gravity="right"
             android:text="sfdsdfsd"
             android:textColor="@color/screen_font"
-            android:textSize="22sp" />
+            android:textSize="22dp" />
 
         <TextView
             android:id="@+id/tvDefaultPozicija"
@@ -65,7 +65,7 @@
             android:layout_below="@+id/tvFullName"
             android:text="pozicija"
             android:textColor="@color/screen_font"
-            android:textSize="18sp" />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/tvHeight"
@@ -76,7 +76,7 @@
             android:gravity="right"
             android:text="190cm"
             android:textColor="@color/screen_font"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/tvWeight"
@@ -90,7 +90,7 @@
             android:gravity="right"
             android:text="88kg"
             android:textColor="@color/screen_font"
-            android:textSize="16sp" />
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/tvNapomena"
@@ -102,7 +102,7 @@
             android:layout_marginTop="5dp"
             android:singleLine="false"
             android:textColor="@color/screen_font"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
     </RelativeLayout>
 </ScrollView>

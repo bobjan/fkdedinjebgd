@@ -40,7 +40,7 @@
         android:layout_below="@+id/tvZakazanoVreme"
         android:layout_marginTop="10dp"
         android:textColor="@color/baselight"
-        android:textSize="20sp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tvGostujuciTim"
@@ -52,7 +52,7 @@
         android:layout_toRightOf="@+id/tvDomaciTim"
         android:gravity="right"
         android:textColor="@color/baselight"
-        android:textSize="20sp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tvPromptStadion"
@@ -73,7 +73,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:textColor="@color/complementlght"
-        android:textSize="20sp" />
+        android:textSize="20dp" />
 
     <ImageView
         android:id="@+id/ivgooglemaps"
@@ -91,4 +91,17 @@
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
         ads:adUnitId="@string/admob_banner_onlistviews"></com.google.android.gms.ads.AdView>
+
+
+    <ProgressBar
+        android:id="@+id/pbarNextMatch"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:max="100"
+        android:progress="0" />
 </RelativeLayout>

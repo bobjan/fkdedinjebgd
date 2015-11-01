@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/screen_background"
@@ -18,21 +18,22 @@
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/ad4View"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/admob_banner_onlistviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"></com.google.android.gms.ads.AdView>
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/admob_banner_onlistviews"></com.google.android.gms.ads.AdView>
 
     <ProgressBar
+        android:id="@+id/pbarManagement"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/pbarManagement"
-        android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:max="100"
-        android:progress="0"/>
+        android:progress="0" />
 </RelativeLayout>

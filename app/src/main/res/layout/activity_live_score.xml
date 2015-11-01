@@ -1,148 +1,154 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_background"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:background="@color/screen_background"
     tools:context="com.logotet.fkdedinjebgd.LiveScoreActivity">
 
 
     <TextView
+        android:id="@+id/txtDatum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:id="@+id/txtDatum"
-        android:textColor="@color/baselight"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"  />
+        android:layout_marginTop="5dp"
+        android:textColor="@color/baselight" />
 
     <ImageView
+        android:id="@+id/ivgmaps"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/gmaps30x30"
-        android:id="@+id/ivgmaps"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtStadion"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/baselight"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/ivgmaps"   />
+        android:src="@drawable/gmaps30x30" />
 
     <TextView
-        android:layout_width="60dp"
+        android:id="@+id/txtStadion"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:textSize="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/ivgmaps"
+        android:textColor="@color/baselight" />
+
+    <TextView
         android:id="@+id/tvCurrentScore"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/txtDatum"
-        android:textColor="@color/complementlght"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/complementlght"
+        android:textSize="32dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tvHomeTeamName"
-        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/txtDatum"
-        android:layout_toLeftOf="@+id/tvCurrentScore"
-        android:textColor="@color/screen_font"/>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvAwayTeamName"
-        android:gravity="right"
         android:layout_marginTop="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/tvCurrentScore"
-        android:layout_below="@+id/txtStadion"
-        android:textColor="@color/screen_font"/>
+        android:layout_toLeftOf="@+id/tvCurrentScore"
+        android:textColor="@color/screen_font" />
+
+
     <TextView
+        android:id="@+id/tvAwayTeamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/txtStadion"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tvCurrentScore"
+        android:gravity="right"
+        android:textColor="@color/screen_font" />
+
+    <TextView
         android:id="@+id/tvCurrentMinute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textColor="@color/screen_font"
-        android:layout_below="@id/tvHomeTeamName"/>
+        android:layout_below="@id/tvHomeTeamName"
+        android:textColor="@color/screen_font" />
 
 
     <Button
+        android:id="@+id/btnShowEvents"
         android:layout_width="fill_parent"
         android:layout_height="18dp"
-        android:id="@+id/btnShowEvents"
+        android:layout_below="@id/tvCurrentMinute"
         android:layout_marginTop="10dp"
+        android:background="@drawable/actionbutton"
+        android:gravity="right"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="15dp"
+        android:paddingTop="0dp"
         android:text="@string/btn_events"
         android:textAllCaps="false"
-        android:textSize="12dp"
-        android:gravity="right"
-        android:paddingLeft="0dp"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:paddingRight="15dp"
-        android:background="@drawable/actionbutton"
         android:textColor="@color/screen_font"
-        android:layout_below="@id/tvCurrentMinute"/>
+        android:textSize="12dp" />
 
     <LinearLayout
+        android:id="@+id/llEvents"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/llEvents"
-        android:orientation="vertical"
         android:layout_below="@+id/btnShowEvents"
+        android:orientation="vertical"
         android:visibility="visible">
+
         <ListView
+            android:id="@+id/lvClientEvents"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lvClientEvents"></ListView>
+            android:layout_height="wrap_content"></ListView>
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnShowSastav"
         android:layout_width="fill_parent"
         android:layout_height="18dp"
-        android:id="@+id/btnShowSastav"
+        android:layout_below="@id/llEvents"
         android:layout_marginTop="10dp"
+        android:background="@drawable/actionbutton"
+        android:gravity="right"
+        android:paddingBottom="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="15dp"
+        android:paddingTop="0dp"
         android:text="@string/btn_lineup"
         android:textAllCaps="false"
-        android:textSize="12dp"
-        android:paddingLeft="0dp"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:paddingRight="15dp"
-        android:gravity="right"
-        android:background="@drawable/actionbutton"
         android:textColor="@color/screen_font"
-        android:layout_below="@id/llEvents" />
+        android:textSize="12dp" />
 
     <LinearLayout
+        android:id="@+id/llSastav"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/llSastav"
-        android:orientation="vertical"
-        android:layout_below="@+id/btnShowSastav">
+        android:layout_below="@+id/btnShowSastav"
+        android:orientation="vertical">
+
         <ListView
+            android:id="@+id/lvClientIgrac"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/lvClientIgrac"></ListView>
+            android:layout_height="wrap_content"></ListView>
     </LinearLayout>
 
     <ProgressBar
+        android:id="@+id/pbarLivescore"
+        style="@style/Base.Widget.AppCompat.ProgressBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/pbarLivescore"
-        android:layout_alignParentRight="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
         android:max="100"
-        android:progress="0"/>
+        android:progress="0" />
 
 </RelativeLayout>

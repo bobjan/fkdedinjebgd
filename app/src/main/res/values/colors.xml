@@ -14,7 +14,6 @@
     <color name="verydark">#202020</color>
 
 
-
     <color name="myblue">#6699ff</color>
     <color name="mylightblue">#aaccff</color>
     <color name="myultrablue">#bbddff</color>
@@ -22,7 +21,6 @@
     <color name="llback">#202020</color>
     <color name="seltabclr">#8f8f8f</color>
     <color name="unseltabclr">#aaaaaa</color>
-
 
 
     <color name="screen_background">#404040</color>
@@ -35,7 +33,6 @@
     <color name="tabselected_font">#aaaaaa</color>
     <color name="tabunselected_font">#aaaaaa</color>
     <color name="tablayout_font">#aaaaaa</color>
-
 
 
     <color name="btn1_gradient_start">#73225c</color>

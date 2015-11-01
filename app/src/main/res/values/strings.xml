@@ -1,6 +1,7 @@
 ﻿<resources>
     <string name="app_name">ФК Дедиње БГД</string>
 
+    <string name="network_error">Неуспело повезивање на интернет, проверити доступност мреже</string>
 
     <string name="btn_home">О клубу</string>
     <string name="btn_management">Управа</string>
@@ -16,7 +17,7 @@
     <string name="title_activity_live_score">Уживо праћење резултата</string>
     <string name="title_activity_next_match">Следећа утакмица</string>
 
-    <string name="prompt_sound">Звук за гол</string>
+    <string name="prompt_sound">Звук за гол   </string>
     <string name="prompt_stadion">Стадион</string>
     <string name="prompt_sezona">сезона</string>
     <string name="prompt_datum_osnivanja">Датум оснивања:</string>

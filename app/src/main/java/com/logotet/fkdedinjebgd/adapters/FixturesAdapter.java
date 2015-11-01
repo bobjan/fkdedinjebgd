@@ -21,12 +21,13 @@ import java.util.ArrayList;
 public class FixturesAdapter extends BaseAdapter {
     Activity activity;
     private LayoutInflater inflater;
-    ArrayList arrayList;
+    ArrayList<FixturesRow> arrayList;
 
 
-    public FixturesAdapter(Activity activity) {
+    public FixturesAdapter(Activity activity, ArrayList<FixturesRow> lista) {
         this.activity = activity;
-        arrayList = Fixtures.getInstance().getRaspored();
+        arrayList = lista;
+//        arrayList = Fixtures.getInstance().getRaspored();
     }
 
     @Override

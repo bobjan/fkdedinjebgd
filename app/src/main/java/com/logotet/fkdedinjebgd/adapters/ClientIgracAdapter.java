@@ -27,7 +27,16 @@ public class ClientIgracAdapter extends BaseAdapter {
 
     public ClientIgracAdapter(Activity activity) {
         this.activity = activity;
-        arrayList = BazaIgraca.getInstance().getuProtokolu();
+        if(arrayList == null)
+            arrayList = new ArrayList();
+        arrayList.clear();
+        arrayList.addAll(BazaIgraca.getInstance().getuProtokolu());
+//        arrayList = BazaIgraca.getInstance().getuProtokolu();
+    }
+    public void reload(){
+        arrayList.clear();
+        arrayList.addAll(BazaIgraca.getInstance().getuProtokolu());
+
     }
 
     @Override

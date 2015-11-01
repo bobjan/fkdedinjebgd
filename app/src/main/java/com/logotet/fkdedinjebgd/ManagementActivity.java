@@ -12,12 +12,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.logotet.dedinjeadmin.AllStatic;
+
 import com.logotet.dedinjeadmin.HttpCatcher;
-import com.logotet.dedinjeadmin.model.Fixtures;
 import com.logotet.dedinjeadmin.model.Klub;
 import com.logotet.dedinjeadmin.model.Osoba;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
@@ -41,23 +41,32 @@ public class ManagementActivity extends AppCompatActivity {
         context = getApplicationContext();
         setContentView(R.layout.activity_management);
 
-        Klub.getInstance().getRukovodstvo().clear();
+//        Klub.getInstance().getRukovodstvo().clear();
+
+        rukovodstvo = new ArrayList<Osoba>();
 
         lvRukovodstvo = (ListView) findViewById(R.id.lvManagement);
         pbar = (ProgressBar) findViewById(R.id.pbarManagement);
 
-        managerAdapter = new ManagementAdapter(this);
+        managerAdapter = new ManagementAdapter(this, rukovodstvo);
         lvRukovodstvo.setAdapter(managerAdapter);
+
+
         pbar.setVisibility(View.VISIBLE);
 
        handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 if(msg.what == 0){
-                    // Toast internet error!
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                 }
+                if(msg.what == 2){
+                    managerAdapter.notifyDataSetChanged();
+                }
+
                 if(msg.what == 1){
-                    rukovodstvo = Klub.getInstance().getRukovodstvo();
+                    rukovodstvo.clear();
+                    rukovodstvo.addAll(Klub.getInstance().getRukovodstvo());
                     managerAdapter.notifyDataSetChanged();
                     pbar.setVisibility(View.GONE);
                     for (int idx = 0; idx < rukovodstvo.size(); idx++) {
@@ -71,6 +80,7 @@ public class ManagementActivity extends AppCompatActivity {
         };
 
         preuzmiRukovodstvo();
+
 
         lvRukovodstvo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,7 +103,7 @@ public class ManagementActivity extends AppCompatActivity {
     }
 
     private void loadImage(final Osoba osoba) {
-        Thread thread = new ImageLoader(osoba, handler, managerAdapter);
+        Thread thread = new ImageLoader(osoba, handler);
         thread.start();
     }
 
@@ -141,7 +151,6 @@ public class ManagementActivity extends AppCompatActivity {
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                     handler.sendEmptyMessage(1);
-
                 } catch (IOException e) {
                     handler.sendEmptyMessage(0);
                 }

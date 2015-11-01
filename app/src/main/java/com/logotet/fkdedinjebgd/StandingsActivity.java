@@ -11,17 +11,20 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.logotet.dedinjeadmin.AllStatic;
+
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
 import com.logotet.dedinjeadmin.model.Tabela;
+import com.logotet.dedinjeadmin.model.TabelaRow;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.fkdedinjebgd.adapters.StandingsAdapter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class StandingsActivity extends AppCompatActivity {
     private static final String TAG = "StandingsActivity";
@@ -30,6 +33,7 @@ public class StandingsActivity extends AppCompatActivity {
 
     ListView lvStandings;
     private StandingsAdapter standingsAdapter;
+    ArrayList<TabelaRow> tabela;
 
     Handler handler;
     ProgressBar pbar;
@@ -40,9 +44,12 @@ public class StandingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_standings);
 
         Tabela.getInstance().getPlasman().clear();
+        tabela = new ArrayList<TabelaRow>();
+
         lvStandings = (ListView) findViewById(R.id.lvStandings);
         standingsAdapter = new StandingsAdapter(this);
         lvStandings.setAdapter(standingsAdapter);
+
 
         tvNazivLige = (TextView) findViewById(R.id.tvNazivLige);
         tvOdigranoKolo = (TextView) findViewById(R.id.tvOdigranoKolo);
@@ -57,8 +64,13 @@ public class StandingsActivity extends AppCompatActivity {
                 if (msg.what == 1) {
                     tvNazivLige.setText(AppHeaderData.getInstance().getNazivLige());
                     tvOdigranoKolo.setText("после " + Tabela.getInstance().getLastRound() + ". кола");
+                    tabela.clear();
+                    tabela.addAll(Tabela.getInstance().getPlasman());
                     standingsAdapter.notifyDataSetChanged();
                     pbar.setVisibility(View.GONE);
+                }
+                if(msg.what == 0){
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -120,7 +132,6 @@ public class StandingsActivity extends AppCompatActivity {
                     catcher = new HttpCatcher(RequestPreparator.GETTABELA, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                     handler.sendEmptyMessage(1);
-
                 } catch (IOException e) {
                     handler.sendEmptyMessage(0);
                 }
