@@ -2,6 +2,7 @@ package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -38,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
         btnLivescore = (Button) findViewById(R.id.btnLivescore);
 
         switchSound = (Switch) findViewById(R.id.swSound);
+
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                switchSound.setShowText(true);
+        } else{
+            // do something for phones running an SDK before lollipop
+        }
 
         switchSound.setChecked(getOldSoundPref());
 
@@ -127,7 +134,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_livescore:
                 startActivity(new Intent(this, LiveScoreActivity.class));
                 return true;
-        }
+            case R.id.action_news:
+                startActivity(new Intent(this, NewsActivity.class));
+                return true;       }
         return super.onOptionsItemSelected(item);
     }
 

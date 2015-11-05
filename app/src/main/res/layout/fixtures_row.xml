@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -9,36 +9,41 @@
 
     <TextView
         android:id="@+id/tvDatum"
-        android:layout_width="65dp"
+        android:layout_width="66dp"
         android:layout_height="wrap_content"
         android:textSize="12dp"
-        android:layout_marginRight="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="2dp"
         android:textColor="@color/screen_font"
         android:gravity="right" />
 
     <TextView
         android:id="@+id/tvTeamHome"
-        android:layout_width="120dp"
+        android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:textSize="12dp"
+        android:layout_toRightOf="@+id/tvDatum"
         android:textColor="@color/screen_font"
         android:gravity="right"
         android:ellipsize="end" />
 
     <TextView
         android:id="@+id/tvScore"
-        android:layout_width="28dp"
+        android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:textSize="12dp"
         android:textColor="@color/complementlght"
+        android:layout_toLeftOf="@+id/tvTeamAway"
+        android:layout_toRightOf="@+id/tvTeamHome"
         android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/tvTeamAway"
-        android:layout_width="120dp"
+        android:layout_width="108dp"
         android:layout_height="wrap_content"
         android:textSize="12dp"
         android:textColor="@color/screen_font"
+        android:layout_alignParentRight="true"
         android:ellipsize="end"
         android:gravity="left" />
-</LinearLayout>
+</RelativeLayout>

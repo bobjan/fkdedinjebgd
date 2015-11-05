@@ -1,6 +1,7 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
 import com.logotet.dedinjeadmin.model.Tabela;
@@ -28,6 +28,12 @@ import java.util.ArrayList;
 
 public class StandingsActivity extends AppCompatActivity {
     private static final String TAG = "StandingsActivity";
+
+    public static final String MY_PREFS_NAME = "DedinjePrefsFile";
+    public static final String PREFS_PARAM = "laststandings";
+    private static long READ_INTERVAL = 1000L * 60 * 120; // dva sata
+
+
     TextView tvNazivLige;
     TextView tvOdigranoKolo;
 
@@ -43,8 +49,6 @@ public class StandingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_standings);
 
-        Tabela.getInstance().getPlasman().clear();
-        tabela = new ArrayList<TabelaRow>();
 
         lvStandings = (ListView) findViewById(R.id.lvStandings);
         standingsAdapter = new StandingsAdapter(this);
@@ -64,12 +68,13 @@ public class StandingsActivity extends AppCompatActivity {
                 if (msg.what == 1) {
                     tvNazivLige.setText(AppHeaderData.getInstance().getNazivLige());
                     tvOdigranoKolo.setText("после " + Tabela.getInstance().getLastRound() + ". кола");
-                    tabela.clear();
-                    tabela.addAll(Tabela.getInstance().getPlasman());
+                    standingsAdapter.reload();
+//                    tabela.clear();
+//                    tabela.addAll(Tabela.getInstance().getPlasman());
                     standingsAdapter.notifyDataSetChanged();
                     pbar.setVisibility(View.GONE);
                 }
-                if(msg.what == 0){
+                if (msg.what == 0) {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                 }
             }
@@ -85,7 +90,6 @@ public class StandingsActivity extends AppCompatActivity {
                 .build();
 
         mAdView.loadAd(adRequest);
-
     }
 
     @Override
@@ -118,7 +122,9 @@ public class StandingsActivity extends AppCompatActivity {
             case R.id.action_livescore:
                 startActivity(new Intent(this, LiveScoreActivity.class));
                 return true;
-        }
+            case R.id.action_news:
+                startActivity(new Intent(this, NewsActivity.class));
+                return true;        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -127,10 +133,15 @@ public class StandingsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                    catcher = new HttpCatcher(RequestPreparator.GETTABELA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
+                    if (isTooOld() || (!Tabela.getInstance().isLoaded()) || (Tabela.getInstance().getPlasman().size() == 0)) {
+                        Tabela.getInstance().getPlasman().clear();
+                        HttpCatcher catcher;
+                        catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                        catcher = new HttpCatcher(RequestPreparator.GETTABELA, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                        rememberReadTime();
+                    }
                     handler.sendEmptyMessage(1);
                 } catch (IOException e) {
                     handler.sendEmptyMessage(0);
@@ -139,4 +150,22 @@ public class StandingsActivity extends AppCompatActivity {
         });
         thread.start();
     }
+
+    private boolean isTooOld() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        long lastRead = prefs.getLong(PREFS_PARAM, 0L);
+
+        if (now > (lastRead + READ_INTERVAL))
+            return true;
+        return false;
+    }
+    private void rememberReadTime() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(PREFS_PARAM, now);
+        editor.commit();
+    }
+
 }

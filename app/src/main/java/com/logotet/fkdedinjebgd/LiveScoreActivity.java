@@ -25,7 +25,6 @@ import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 import com.logotet.fkdedinjebgd.adapters.ClientEventsAdapter;
 import com.logotet.fkdedinjebgd.adapters.ClientIgracAdapter;
-import com.logotet.util.BJDatum;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -95,16 +94,17 @@ public class LiveScoreActivity extends AppCompatActivity {
 
         ivGmaps = (ImageView) findViewById(R.id.ivgmaps);
 
-        handler = new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if(msg.what == 0){
+                if (msg.what == 0) {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                 }
-                if(msg.what == 1){
+                if (msg.what == 1) {
                     refreshAll();
                     pbar.setVisibility(View.GONE);
                     sastavAdapter.reload();
+                    eventsAdapter.reload();
                     eventsAdapter.notifyDataSetChanged();
                     sastavAdapter.notifyDataSetChanged();
                 }
@@ -215,7 +215,9 @@ public class LiveScoreActivity extends AppCompatActivity {
                 return true;
             case R.id.action_livescore:
                 return true;
-        }
+            case R.id.action_news:
+                startActivity(new Intent(this, NewsActivity.class));
+                return true;        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -244,19 +246,20 @@ public class LiveScoreActivity extends AppCompatActivity {
                     HttpCatcher catcher = new HttpCatcher(RequestPreparator.SERVERTIME, AllStatic.HTTPHOST, null);
                     catcher.catchData();
 
-                    if(BazaStadiona.getInstance().getTereni().size() == 0) {
+                    if (BazaStadiona.getInstance().getTereni().size() == 0) {
                         catcher = new HttpCatcher(RequestPreparator.GETSTADION, AllStatic.HTTPHOST, null);
                         catcher.catchData();
                     }
-                    if(BazaTimova.getInstance().getProtivnici().size() == 0) {
+                    if (BazaTimova.getInstance().getProtivnici().size() == 0) {
                         catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
                         catcher.catchData();
                     }
 
-                    BazaIgraca.getInstance().getSquad().clear();
-                    catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-
+//                    BazaIgraca.getInstance().getSquad().clear();
+                    if ((BazaIgraca.getInstance().getSquad().size() == 0) || (!BazaIgraca.getInstance().isLoaded())) {
+                        catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                    }
                     catcher = new HttpCatcher(RequestPreparator.GETLIVEMATCH, AllStatic.HTTPHOST, null);
                     catcher.catchData();
                     BazaIgraca.getInstance().refreshBrojeviNaDresu();

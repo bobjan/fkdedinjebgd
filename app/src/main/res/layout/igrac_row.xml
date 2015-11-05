@@ -5,9 +5,9 @@
     android:background="@color/screen_background">
 
     <ImageView
+        android:id="@+id/ivIgracIcon"
         android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/ivIgracIcon" />
+        android:layout_height="60dp" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -18,50 +18,58 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@color/screen_font"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true" />
+            android:text="***"
+            android:textColor="@color/screen_font"
+            android:textSize="16dp" />
+
+
+        <TextView
+            android:id="@+id/tvVisina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingRight="20dp"
+            android:text="***"
+            android:textColor="@color/screen_font"
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/tvGodiste"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
-            android:layout_marginRight="2dp"
-            android:textColor="@color/screen_font"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tvName" />
+            android:layout_below="@+id/tvName"
+            android:layout_marginRight="2dp"
+            android:text="***"
+            android:textColor="@color/screen_font"
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tvPozicija"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:textColor="@color/screen_font"
             android:layout_alignBaseline="@+id/tvGodiste"
             android:layout_below="@+id/tvName"
-            android:layout_toRightOf="@+id/tvGodiste" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvVisina"
-            android:textSize="12dp"
+            android:layout_toRightOf="@+id/tvGodiste"
+            android:text="***"
             android:textColor="@color/screen_font"
-            android:layout_alignParentRight="true"
-            android:paddingRight="20dp" />
+            android:textSize="12dp" />
+
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/tvTezina"
-            android:textSize="12dp"
-            android:textColor="@color/screen_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvGodiste"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tvVisina"
-            android:layout_alignBaseline="@+id/tvGodiste"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:text="***"
+            android:textColor="@color/screen_font"
+            android:textSize="12dp" />
     </RelativeLayout>
 
 </LinearLayout>

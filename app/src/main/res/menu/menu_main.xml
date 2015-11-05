@@ -33,5 +33,10 @@
         android:orderInCategory="600"
         android:title="@string/btn_livescore"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_news"
+        android:orderInCategory="600"
+        android:title="@string/btn_news"
+        app:showAsAction="never" />
 
 </menu>

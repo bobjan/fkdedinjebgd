@@ -31,10 +31,15 @@ public class IgracAdapter extends BaseAdapter {
     ArrayList<Igrac> arrayList;
     private LayoutInflater inflater;
 
-    public IgracAdapter(Activity activity, ArrayList<Igrac> lista) {
+    public IgracAdapter(Activity activity) {
         this.activity = activity;
-        this.arrayList = lista;
-//        arrayList = BazaIgraca.getInstance().getSquad();
+        arrayList = new ArrayList<Igrac>();
+        arrayList.addAll(BazaIgraca.getInstance().getSquad());
+    }
+
+    public void reload(){
+        arrayList.clear();
+        arrayList.addAll(BazaIgraca.getInstance().getSquad());
     }
 
     @Override

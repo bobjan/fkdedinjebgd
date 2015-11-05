@@ -2,10 +2,12 @@ package com.logotet.fkdedinjebgd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.Klub;
 import com.logotet.dedinjeadmin.model.Osoba;
@@ -27,7 +28,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ManagementActivity extends AppCompatActivity {
+    private static final String TAG = "ManagementActivity";
     ListView lvRukovodstvo;
+
+    public static final String MY_PREFS_NAME = "DedinjePrefsFile";
+    public static final String PREFS_PARAM = "lastmngmnt";
+    private static long READ_INTERVAL = 1000L * 60 * 120; // dva sata
+
     private ManagementAdapter managerAdapter;
     ArrayList<Osoba> rukovodstvo;
 
@@ -54,17 +61,17 @@ public class ManagementActivity extends AppCompatActivity {
 
         pbar.setVisibility(View.VISIBLE);
 
-       handler = new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if(msg.what == 0){
+                if (msg.what == 0) {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                 }
-                if(msg.what == 2){
+                if (msg.what == 2) {
                     managerAdapter.notifyDataSetChanged();
                 }
 
-                if(msg.what == 1){
+                if (msg.what == 1) {
                     rukovodstvo.clear();
                     rukovodstvo.addAll(Klub.getInstance().getRukovodstvo());
                     managerAdapter.notifyDataSetChanged();
@@ -137,7 +144,9 @@ public class ManagementActivity extends AppCompatActivity {
             case R.id.action_livescore:
                 startActivity(new Intent(this, LiveScoreActivity.class));
                 return true;
-        }
+            case R.id.action_news:
+                startActivity(new Intent(this, NewsActivity.class));
+                return true;        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -148,8 +157,12 @@ public class ManagementActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
+                    if (isTooOld() || (Klub.getInstance().getRukovodstvo().size() == 0) || (!Klub.getInstance().isLoaded())) {
+                        HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                        Log.w(TAG, " citano !!!!!");
+                        rememberReadTime();
+                    }
                     handler.sendEmptyMessage(1);
                 } catch (IOException e) {
                     handler.sendEmptyMessage(0);
@@ -157,5 +170,24 @@ public class ManagementActivity extends AppCompatActivity {
             }
         });
         thread.start();
+    }
+
+
+    private boolean isTooOld() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        long lastRead = prefs.getLong(PREFS_PARAM, 0L);
+
+        if (now > (lastRead + READ_INTERVAL))
+            return true;
+        return false;
+    }
+
+    private void rememberReadTime() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(PREFS_PARAM, now);
+        editor.commit();
     }
 }

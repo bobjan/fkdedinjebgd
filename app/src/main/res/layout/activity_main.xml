@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/ivFrontImage"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -111,11 +111,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:showText="true"
         android:checked="false"
         android:switchMinWidth="86dp"
         android:text="@string/prompt_sound"
-        android:textOff="-"
-        android:textOn="+"
+        android:textOff="  -  "
+        android:textOn="  +  "
         android:textSize="14dp"
         android:thumb="@drawable/thumb"
         android:track="@drawable/track"

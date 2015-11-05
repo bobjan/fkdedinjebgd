@@ -20,11 +20,17 @@ import java.util.ArrayList;
 public class StandingsAdapter extends BaseAdapter {
     Activity activity;
     private LayoutInflater inflater;
-    ArrayList arrayList;
+    ArrayList<TabelaRow> arrayList;
 
     public StandingsAdapter(Activity activity) {
         this.activity = activity;
-        arrayList = Tabela.getInstance().getPlasman();
+        arrayList = new ArrayList<TabelaRow>();
+        arrayList.addAll(Tabela.getInstance().getPlasman());
+    }
+
+    public void reload(){
+        arrayList.clear();
+        arrayList.addAll(Tabela.getInstance().getPlasman());
     }
 
     @Override

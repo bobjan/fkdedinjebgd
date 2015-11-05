@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_font"   >
+
+    <TextView
+        android:id="@+id/tvNewsDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="5dp"
+        android:paddingTop="6dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/baseclr"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/tvNewsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvNewsDate"
+        android:layout_toRightOf="@+id/tvNewsDate"
+        android:textStyle="bold"
+        android:textColor="@color/screen_background"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/tvNewsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/screen_background"
+        android:layout_below="@+id/tvNewsDate"     />
+
+</RelativeLayout>

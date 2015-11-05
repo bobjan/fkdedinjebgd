@@ -1,6 +1,5 @@
 package com.logotet.fkdedinjebgd;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,15 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.logotet.dedinjeadmin.HttpCatcher;
-import com.logotet.dedinjeadmin.model.AppHeaderData;
+import com.logotet.dedinjeadmin.model.BazaSaopstenja;
 import com.logotet.dedinjeadmin.model.BazaStadiona;
 import com.logotet.dedinjeadmin.model.BazaTimova;
+import com.logotet.dedinjeadmin.model.Saopstenje;
 import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.dedinjeadmin.xmlparser.RequestPreparator;
 
@@ -55,16 +54,31 @@ public class MatchService extends Service {
                     catcher.catchData();
                     catcher = new HttpCatcher(RequestPreparator.ALLEVENTS, AllStatic.HTTPHOST, null);
                     catcher.catchData();
+
+                    BazaSaopstenja.getInstance().getVesti().clear();
+                    catcher = new HttpCatcher(RequestPreparator.GETSAOPSTENJA, AllStatic.HTTPHOST, null);
+                    catcher.catchData();
+
+                    boolean matchNotified = false;
+
                     utakmica = Utakmica.getInstance();
                     if (utakmica != null) {
                         utakmica.odrediMinutazu();
                         if (!utakmica.uToku() && !utakmica.isFinished()) {
-                            if (!isAlreadyNotified())
+                            if (!isAlreadyNotified()){
                                 createNotification();
+                                matchNotified = true;
+                            }
                         }
                         if (utakmica.getDatum().isToday()) {
                             pokreniGoalSevice();
                         }
+                    }
+
+                    if(!matchNotified){
+                        if(!isOldNews())
+                            createNewsNotification();
+
                     }
                 } catch (FileNotFoundException fnfe) {
                 } catch (IOException e) {
@@ -81,19 +95,46 @@ public class MatchService extends Service {
     }
 
     private boolean isAlreadyNotified() {
-        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
-        String nextMatch = utakmica.getAllInOne();
-        String matchNotified = prefs.getString("nextmatch", " ");
+        try {
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String nextMatch = utakmica.getAllInOne();
+            String matchNotified = prefs.getString("nextmatch", " ");
+            if (nextMatch.equals(matchNotified))
+                return true;
 
-        if (nextMatch.equals(matchNotified))
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("nextmatch", nextMatch);
+            editor.putString("currentscore", "0:0");
+            editor.commit();
+            return false;
+        } catch (NullPointerException npe) {
             return true;
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("nextmatch", nextMatch);
-        editor.putString("currentscore", "0:0");
-        editor.commit();
-        return false;
+        }
     }
+
+
+    private boolean isOldNews() {
+        try {
+            BazaSaopstenja.getInstance().sortiraj();
+            SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+            String oldNews = prefs.getString("newsdate", " ");
+            String newNews = null;
+            Saopstenje vest = BazaSaopstenja.getInstance().getVesti().get(0);
+            if (vest != null) {
+                newNews = vest.getBJDatum().toString();
+                if (oldNews.equals(newNews))
+                    return true;
+            } else return true;
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("newsdate", newNews);
+            editor.commit();
+            return false;
+        } catch (NullPointerException npe) {
+            return true;
+        }
+    }
+
 
     @Override
     public void onDestroy() {
@@ -139,5 +180,33 @@ public class MatchService extends Service {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(400);
 
+    }
+
+
+    public void createNewsNotification() {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        notificationBuilder.setSmallIcon(R.mipmap.notifikacija);
+        notificationBuilder.setContentTitle("Саопштење");
+        String naslov = "******";
+        try {
+            Saopstenje vest = (Saopstenje) BazaSaopstenja.getInstance().getVesti().get(0);
+            naslov = vest.getNaslov();
+        } catch (Exception e) {
+        }
+
+        notificationBuilder.setContentText(naslov);
+        notificationBuilder.setAutoCancel(true);
+
+        Intent resultIntent = new Intent(this, NewsActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(NewsActivity.class);
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notificationBuilder.build());
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        v.vibrate(400);
     }
 }

@@ -33,10 +33,11 @@
         android:layout_marginBottom="6dp" />
 
     <ListView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lvFixtures"
-        android:layout_below="@+id/tvSeason"></ListView>
+        android:layout_centerInParent="true"
+      android:layout_below="@+id/tvSeason"></ListView>
 
 
     <com.google.android.gms.ads.AdView
@@ -50,7 +51,7 @@
 
 
     <ProgressBar
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Base.Widget.AppCompat.ProgressBar"
         android:id="@+id/pbarFixtures"

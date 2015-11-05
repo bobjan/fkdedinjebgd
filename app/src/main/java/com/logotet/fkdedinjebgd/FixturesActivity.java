@@ -1,10 +1,12 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,11 +28,15 @@ import java.util.ArrayList;
 
 public class FixturesActivity extends AppCompatActivity {
     private static final String TAG = "FixturesActivity";
+
+    public static final String MY_PREFS_NAME = "DedinjePrefsFile";
+    public static final String PREFS_PARAM = "lastfixtures";
+    private static long READ_INTERVAL = 1000L * 60 * 120; // dva sata
+
     TextView tvSezona;
     ListView lvFixtures;
     private FixturesAdapter fixturesAdapter;
     Handler handler;
-    ArrayList<FixturesRow> raspored;
 
     ProgressBar pbar;
 
@@ -39,14 +45,10 @@ public class FixturesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixtures);
 
-//        Fixtures.getInstance().getRaspored().clear();
-
-        raspored = new ArrayList<FixturesRow>();
-
         lvFixtures = (ListView) findViewById(R.id.lvFixtures);
         pbar = (ProgressBar) findViewById(R.id.pbarFixtures);
 
-        fixturesAdapter = new FixturesAdapter(this, raspored);
+        fixturesAdapter = new FixturesAdapter(this);
         tvSezona = (TextView) findViewById(R.id.tvSeason);
         pbar.setVisibility(View.VISIBLE);
         lvFixtures.setAdapter(fixturesAdapter);
@@ -60,15 +62,15 @@ public class FixturesActivity extends AppCompatActivity {
                 if (msg.what == 1) {
                     String sezona = Fixtures.getInstance().getSezona();
                     tvSezona.setText(sezona);
-                    raspored.clear();
-                    raspored.addAll(Fixtures.getInstance().getRaspored());
+//                    raspored.clear();
+//                    raspored.addAll(Fixtures.getInstance().getRaspored());
+                    fixturesAdapter.reload();
                     fixturesAdapter.notifyDataSetChanged();
                     pbar.setVisibility(View.GONE);
                 }
             }
         };
         preuzmiRaspored();
-
 
         AdView mAdView = (AdView) findViewById(R.id.ad2View);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -109,6 +111,9 @@ public class FixturesActivity extends AppCompatActivity {
             case R.id.action_livescore:
                 startActivity(new Intent(this, LiveScoreActivity.class));
                 return true;
+            case R.id.action_news:
+                startActivity(new Intent(this, NewsActivity.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -118,10 +123,14 @@ public class FixturesActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                    catcher = new HttpCatcher(RequestPreparator.GETFIXTURES, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
+                    if(isTooOld() || (!Fixtures.getInstance().isLoaded()) || (Fixtures.getInstance().getRaspored().size() == 0)) {
+                        HttpCatcher catcher;
+                        catcher = new HttpCatcher(RequestPreparator.GETLIGA, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                        catcher = new HttpCatcher(RequestPreparator.GETFIXTURES, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                        rememberReadTime();
+                    }
                     handler.sendEmptyMessage(1);
                 } catch (IOException e) {
                     handler.sendEmptyMessage(0);
@@ -129,5 +138,22 @@ public class FixturesActivity extends AppCompatActivity {
             }
         });
         thread.start();
+    }
+
+    private boolean isTooOld() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        long lastRead = prefs.getLong(PREFS_PARAM, 0L);
+
+        if (now > (lastRead + READ_INTERVAL))
+            return true;
+        return false;
+    }
+    private void rememberReadTime() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(PREFS_PARAM, now);
+        editor.commit();
     }
 }

@@ -24,11 +24,17 @@ public class FixturesAdapter extends BaseAdapter {
     ArrayList<FixturesRow> arrayList;
 
 
-    public FixturesAdapter(Activity activity, ArrayList<FixturesRow> lista) {
+    public FixturesAdapter(Activity activity) {
         this.activity = activity;
-        arrayList = lista;
-//        arrayList = Fixtures.getInstance().getRaspored();
+        arrayList = new ArrayList<FixturesRow>();
+        arrayList.addAll(Fixtures.getInstance().getRaspored());
     }
+
+    public void reload(){
+        arrayList.clear();
+        arrayList.addAll(Fixtures.getInstance().getRaspored());
+    }
+
 
     @Override
     public int getCount() {

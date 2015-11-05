@@ -1,6 +1,7 @@
 package com.logotet.fkdedinjebgd;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.logotet.dedinjeadmin.HttpCatcher;
 import com.logotet.dedinjeadmin.model.AppHeaderData;
@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if(msg.what == 0){
+                if (msg.what == 0) {
                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                 }
                 if (msg.what == 1) {
@@ -119,6 +119,9 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             case R.id.action_livescore:
                 startActivity(new Intent(this, LiveScoreActivity.class));
+                return true;
+            case R.id.action_news:
+                startActivity(new Intent(this, NewsActivity.class));
                 return true;
         }
 
@@ -176,6 +179,16 @@ public class HomeActivity extends AppCompatActivity {
                     catcher.catchData();
                     catcher = new HttpCatcher(RequestPreparator.GETRUKOVODSTVO, AllStatic.HTTPHOST, null);
                     catcher.catchData();
+
+// samoupisuje da je rukovodstvo.xml preuyeto sa servera, da se eventualno ne bi ponovo preuzimalo
+                    String MY_PREFS_NAME = "DedinjePrefsFile";
+                    final String PREFS_PARAM = "lastmngmnt";
+                    SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+                    long now = System.currentTimeMillis();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putLong(PREFS_PARAM, now);
+                    editor.commit();
+
                     handler.sendEmptyMessage(1);
                     preuzmiSliku(Klub.getInstance().getFrontimage());
                 } catch (IOException e) {
@@ -185,6 +198,5 @@ public class HomeActivity extends AppCompatActivity {
         });
         thread.start();
     }
-
 
 }

@@ -2,10 +2,12 @@ package com.logotet.fkdedinjebgd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,9 +29,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SquadActivity extends AppCompatActivity {
+    private static final String TAG = "SquadActivity";
     ListView lvSquad;
+
+    public static final String MY_PREFS_NAME = "DedinjePrefsFile";
+    public static final String PREFS_PARAM = "lastsquad";
+    private static long READ_INTERVAL = 1000L * 60 * 120; // dva sata
+
     private IgracAdapter igracAdapter;
-    ArrayList<Igrac> ekipa;
     Handler handler;
     private Context context;
 
@@ -41,36 +48,35 @@ public class SquadActivity extends AppCompatActivity {
         context = getApplicationContext();
         setContentView(R.layout.activity_squad);
 
-        BazaPozicija.getInstance().getTimposition().clear();
+//        BazaPozicija.getInstance().getTimposition().clear();
 //        BazaIgraca.getInstance().getSquad().clear();
-        ekipa = new ArrayList<Igrac>();
+//        ekipa = new ArrayList<Igrac>();
 
         pbar = (ProgressBar) findViewById(R.id.pbarSquad);
         lvSquad = (ListView) findViewById(R.id.lvSquad);
-        igracAdapter = new IgracAdapter(this,ekipa);
+        igracAdapter = new IgracAdapter(this);
         lvSquad.setAdapter(igracAdapter);
 
         pbar.setVisibility(View.VISIBLE);
-        handler = new Handler(){
+        handler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                if(msg.what == 1){
-                    ekipa.clear();
-                    ekipa.addAll(BazaIgraca.getInstance().getSquad());
+                if (msg.what == 1) {
+                    igracAdapter.reload();
                     pbar.setVisibility(View.GONE);
                     igracAdapter.notifyDataSetChanged();
-                    for (int idx = 0; idx < ekipa.size(); idx++) {
-                        Igrac igrac = ekipa.get(idx);
+                    for (int idx = 0; idx < BazaIgraca.getInstance().getSquad().size(); idx++) {
+                        Igrac igrac = BazaIgraca.getInstance().getSquad().get(idx);
                         if (!igrac.isImageLoaded()) {
                             loadImage(igrac);
                         }
                     }
                 }
-                if(msg.what == 2){
+                if (msg.what == 2) {
                     igracAdapter.notifyDataSetChanged();
                 }
-                if(msg.what == 0){
-                    Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.network_error),Toast.LENGTH_LONG).show();
+                if (msg.what == 0) {
+                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.network_error), Toast.LENGTH_LONG).show();
                 }
             }
         };
@@ -131,7 +137,9 @@ public class SquadActivity extends AppCompatActivity {
             case R.id.action_livescore:
                 startActivity(new Intent(this, LiveScoreActivity.class));
                 return true;
-        }
+            case R.id.action_news:
+                startActivity(new Intent(this, NewsActivity.class));
+                return true;        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -141,10 +149,15 @@ public class SquadActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETPOZICIJA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
-                    catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
-                    catcher.catchData();
+                    if (isTooOld() || (!BazaIgraca.getInstance().isLoaded())  || (BazaIgraca.getInstance().getSquad().size() == 0) ||
+                            (!BazaPozicija.getInstance().isLoaded()) || (BazaPozicija.getInstance().getTimposition().size() == 0)) {
+                        HttpCatcher catcher = new HttpCatcher(RequestPreparator.GETPOZICIJA, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                        catcher = new HttpCatcher(RequestPreparator.GETEKIPA, AllStatic.HTTPHOST, null);
+                        catcher.catchData();
+                        rememberReadTime();
+                        Log.w(TAG," citano !!!!!");
+                    }
                     handler.sendEmptyMessage(1);
 
                 } catch (IOException e) {
@@ -154,4 +167,24 @@ public class SquadActivity extends AppCompatActivity {
         });
         thread.start();
     }
+
+
+    private boolean isTooOld() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        long lastRead = prefs.getLong(PREFS_PARAM, 0L);
+
+        if (now > (lastRead + READ_INTERVAL))
+            return true;
+        return false;
+    }
+
+    private void rememberReadTime() {
+        SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+        long now = System.currentTimeMillis();
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(PREFS_PARAM, now);
+        editor.commit();
+    }
+
 }

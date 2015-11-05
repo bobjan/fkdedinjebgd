@@ -9,6 +9,7 @@
     <string name="btn_fixtures">Распоред</string>
     <string name="btn_standings">Табела</string>
     <string name="btn_livescore">LiveScore</string>
+    <string name="btn_news">Обавештења</string>
     <string name="title_activity_management">Управа и стручни штаб</string>
     <string name="title_activity_squad">Тим</string>
     <string name="title_activity_fixtures">Распоред и резултати</string>
@@ -16,6 +17,7 @@
     <string name="title_activity_home">О клубу</string>
     <string name="title_activity_live_score">Уживо праћење резултата</string>
     <string name="title_activity_next_match">Следећа утакмица</string>
+    <string name="title_activity_news">Обавештења</string>
 
     <string name="prompt_sound">Звук за гол   </string>
     <string name="prompt_stadion">Стадион</string>
@@ -28,6 +30,7 @@
     <string name="prompt_email">Email:</string>
     <string name="prompt_web">Web:</string>
     <string name="prompt_tekrac">Текући рачун:</string>
+    <string name="prompt_newsheader">Вести</string>
 
     <string name="btn_events">ток утакмице</string>
     <string name="btn_lineup">састав</string>

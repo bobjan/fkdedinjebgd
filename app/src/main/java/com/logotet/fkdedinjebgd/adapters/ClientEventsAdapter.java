@@ -15,7 +15,6 @@ import com.logotet.dedinjeadmin.model.Utakmica;
 import com.logotet.fkdedinjebgd.R;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by boban on 8/30/15.
@@ -43,14 +42,9 @@ public class ClientEventsAdapter extends BaseAdapter {
 
     public ClientEventsAdapter(Activity activity) {
         this.activity = activity;
-        synchronized (this){
-            arrayList = new ArrayList<Dogadjaj>();
-            Iterator<Dogadjaj> iter = Utakmica.getInstance().getTokZaPrikaz().iterator();
-            while(iter.hasNext())
-                arrayList.add(iter.next());
+        arrayList = new ArrayList<Dogadjaj>();
+        arrayList.addAll(Utakmica.getInstance().getTokZaPrikaz());
 
-        }
-//        arrayList = Utakmica.getInstance().getTokZaPrikaz();
         userTeamHome = Utakmica.getInstance().isUserTeamDomacin();
 
         football = activity.getResources().getDrawable(R.drawable.football30x30);
@@ -60,6 +54,12 @@ public class ClientEventsAdapter extends BaseAdapter {
         redCard = activity.getResources().getDrawable(R.drawable.red30x30);
         penaltygoal = activity.getResources().getDrawable(R.drawable.penalty30x30);
         missedPenalty = activity.getResources().getDrawable(R.drawable.missedpenalty30x30);
+    }
+
+
+    public void reload() {
+        arrayList.clear();
+        arrayList.addAll(Utakmica.getInstance().getTokZaPrikaz());
     }
 
     @Override
